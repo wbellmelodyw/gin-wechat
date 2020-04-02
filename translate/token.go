@@ -14,8 +14,9 @@ func GetToken(text string) string {
 		//取不出来就请求google
 		log.Println("set")
 		tkk, _ = tk.GetTKK()
-		err := cache.SetToken(TkkKey, tkk)
-		log.Print(err)
+		if err := cache.SetToken(TkkKey, tkk); err != nil {
+			log.Print(err)
+		}
 	}
 	tk := tk.GetTK(text, tkk)
 	return tk
