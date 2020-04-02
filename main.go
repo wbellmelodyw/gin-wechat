@@ -33,7 +33,7 @@ func main() {
 
 	//test kk
 
-	translate.Text(text2, language.English, language.Chinese)
-	fmt.Println("translated2:", translatedText)
+	translatedText2, err := translate.Text(text2, language.English, language.Chinese)
+	fmt.Println("translated2:", translatedText2)
 
 }
