@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bregydoc/gtranslate"
 	"github/wbellmelodyw/gin-wechat/hello"
+	"github/wbellmelodyw/gin-wechat/translate"
 	"golang.org/x/text/language"
 	"time"
 )
@@ -12,14 +13,14 @@ func main() {
 
 	text := "hello,world"
 	//fmt.Println(language.Chinese.String())
-	translated,err :=gtranslate.TranslateWithParams(
+	translated, err := gtranslate.TranslateWithParams(
 		text,
 		gtranslate.TranslationParams{
 			From:  "en",
 			To:    "zh",
 			Delay: time.Second,
 		})
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("en: %s | zh: %s \n", text, translated)
@@ -29,4 +30,10 @@ func main() {
 
 	fmt.Println("translated:", translatedText)
 	fmt.Println(hello.Greet(translatedText))
+
+	//test kk
+
+	translate.Text(text2, language.English, language.Chinese)
+	fmt.Println("translated2:", translatedText)
+
 }
