@@ -3,19 +3,12 @@ package translate
 import (
 	"encoding/json"
 	"errors"
-	tk "github.com/kyai/google-translate-tk"
 	"golang.org/x/text/language"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
 )
-
-func GetToken(text string) string {
-	tkk, _ := tk.GetTKK()
-	tk := tk.GetTK("rookie", tkk)
-	return tk
-}
 
 func Text(text string, from language.Tag, to language.Tag) (string, error) {
 	token := GetToken(text)

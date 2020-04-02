@@ -1,3 +1,5 @@
+github.com/allegro/bigcache v1.2.1 h1:hg1sY1raCwic3Vnsvje6TT7/pnZba83LeFck5NrFKSc=
+github.com/allegro/bigcache v1.2.1/go.mod h1:Cb/ax3seSYIx7SuZdm2G2xzfwmv3TPSk2ucNfQESPXM=
 github.com/bregydoc/gtranslate v0.0.0-20191225024717-45b28d4fda86 h1:t5TcUy7aayyxzBFMbwRAYdKgGg7kJpM+gQFOgYdzw1g=
 github.com/bregydoc/gtranslate v0.0.0-20191225024717-45b28d4fda86/go.mod h1:153ZQv0q0e2+tPGhDsQsYTRlVRTWIYMicEvriLNX2ZY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

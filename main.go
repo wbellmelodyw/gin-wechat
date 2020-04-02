@@ -12,7 +12,9 @@ func main() {
 	//fmt.Println(language.Chinese.String())
 
 	//test kk
-	translatedText2, _ := translate.Text(text, language.English, language.Chinese)
-	fmt.Println("translated2:", translatedText2)
+	translatedText, _ := translate.Text(text, language.English, language.Chinese)
+	fmt.Println("translated:", translatedText)
 
+	translatedText2, _ := translate.Text("rookie", language.English, language.Chinese)
+	fmt.Println("translated2:", translatedText2)
 }
