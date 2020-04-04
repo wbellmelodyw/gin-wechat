@@ -93,3 +93,7 @@ func Text(text string, from language.Tag, to language.Tag) (string, error) {
 
 	return responseText, nil
 }
+
+//func Audio(text string, from language.Tag, to language.Tag) (string, error) {
+//
+//}
