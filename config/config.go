@@ -18,3 +18,8 @@ func Init() (err error) {
 func GetString(key string) string {
 	return viper.GetString(key)
 }
+
+// GetString 获取bool配置
+func GetBool(key string) bool {
+	return viper.GetBool(key)
+}
