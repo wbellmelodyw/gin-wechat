@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github/wbellmelodyw/gin-wechat/config"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/router"
