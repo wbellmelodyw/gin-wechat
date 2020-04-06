@@ -10,7 +10,7 @@ import (
 )
 
 func Chinese(ctx *gin.Context) {
-	text := ctx.Param("text")
+	text := ctx.Query("text")
 	logger.Module("translate").Sugar().Error("english translate fail", text)
 
 	value, err := translate.Text(text, language.English, language.Chinese)
