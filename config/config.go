@@ -1,14 +1,16 @@
 package config
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
+	"os"
 )
 
 func Init() (err error) {
-	path := "/Users/ace/code/vgo/gin-wechat"
+	path, err := os.Getwd()
+	if err != nil {
+		return
+	}
 	viper.SetConfigName("gin")
-	fmt.Println(path)
 	viper.AddConfigPath(path)
 	err = viper.ReadInConfig()
 	return
