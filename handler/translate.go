@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/model"
@@ -13,10 +12,11 @@ import (
 func Chinese(ctx *gin.Context) {
 	text := ctx.Param("text")
 	value, err := translate.Text(text, language.English, language.Chinese)
+	logger.Module("translate").Sugar().Error("english translate fail", text)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
-	fmt.Print(value)
+	logger.Module("translate").Sugar().Error("english translate fail", value)
 	ctx.JSON(http.StatusOK, &model.ApiResult{
 		Code: 200,
 		Msg:  "success",
