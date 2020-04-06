@@ -3,6 +3,7 @@ package translate
 import (
 	"encoding/json"
 	"errors"
+	"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"io/ioutil"
 	"net/http"
@@ -80,6 +81,7 @@ func Text(text string, from language.Tag, to language.Tag) (string, error) {
 	}
 
 	responseText := ""
+	logger.Module("test").Sugar().Info("resp", resp)
 	for _, obj := range resp[0].([]interface{}) {
 		if len(obj.([]interface{})) == 0 {
 			break
