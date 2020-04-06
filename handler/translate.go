@@ -11,8 +11,9 @@ import (
 
 func Chinese(ctx *gin.Context) {
 	text := ctx.Param("text")
-	value, err := translate.Text(text, language.English, language.Chinese)
 	logger.Module("translate").Sugar().Error("english translate fail", text)
+
+	value, err := translate.Text(text, language.English, language.Chinese)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
