@@ -49,7 +49,6 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	//提取翻译
 	texts := make([]string, 5)
 	rspJson := r.String()
@@ -57,19 +56,31 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	//result := gjson.Get(rspJson, "0.0")
 	wordMean := "词意:" + gjson.Get(rspJson, "0.0.0").String()
 	texts = append(texts, wordMean)
-	logger.Module("test").Sugar().Info("word", wordMean)
 	//词性
 	result := gjson.Get(rspJson, "1")
-	wordAtr := "词性:"
+	wordAtr := "词性:" //少的用+就行 多才用 strings.builder
 	for _, attrs := range result.Array() {
 		wordAtr += attrs.Get("0").String() + ":"
 		for _, attr := range attrs.Get("1").Array() {
 			wordAtr += attr.String() + ","
 		}
-
+		wordAtr += ";"
 		logger.Module("test").Sugar().Info("word2", wordAtr)
-		texts = append(texts, wordAtr)
 	}
+	texts = append(texts, wordAtr)
+	//解释
+	result = gjson.Get(rspJson, "12")
+	wordExplain := "解释:" //少的用+就行 多才用 strings.builder
+	for _, attrs := range result.Array() {
+		wordExplain += attrs.Get("0").String() + ":"
+		for _, attr := range attrs.Get("1").Array() {
+			wordExplain += attr.String() + ","
+		}
+		wordExplain += ";"
+		logger.Module("test").Sugar().Info("word3", wordExplain)
+	}
+	texts = append(texts, wordExplain)
+	//造句
 
 	//废弃
 	var resp []interface{}
