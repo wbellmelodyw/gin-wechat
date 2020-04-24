@@ -55,21 +55,19 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	texts := make([]string, 5)
 	rspJson := r.String()
 	//词意
-	result := gjson.Get(rspJson, "0.0")
-	wordMean := "词意:"
-	for _, name := range result.Array() {
-		if name.String() == "" {
-			break
-		}
-		wordMean += name.String() + ","
-	}
-	texts = append(texts, strings.Trim(wordMean, ","))
+	//result := gjson.Get(rspJson, "0.0")
+	wordMean := "词意:" + gjson.Get(rspJson, "0.0.0").String()
+	texts = append(texts, wordMean)
 	logger.Module("test").Sugar().Info("word", wordMean)
 	//词性
-	result = gjson.Get(rspJson, "1")
+	result := gjson.Get(rspJson, "1")
 	wordAtr := "词性:"
 	for _, attrs := range result.Array() {
-		wordAtr += attrs.Get("0").String() + ":" + attrs.Get("1").String()
+		wordAtr += attrs.Get("0").String() + ":"
+		for _, attr := range attrs.Get("1").Array() {
+			wordAtr += attr.String() + ","
+		}
+
 		logger.Module("test").Sugar().Info("word2", wordAtr)
 		texts = append(texts, wordAtr)
 	}
