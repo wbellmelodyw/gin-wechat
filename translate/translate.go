@@ -77,7 +77,7 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 		for _, attr := range attrs.Get("1").Array() {
 			wordExplain += attr.Get("0").String() + "|"
 		}
-		strings.TrimRight(wordExplain, "|")
+		wordExplain = strings.TrimRight(wordExplain, "|")
 		wordExplain += ";"
 	}
 	logger.Module("test").Sugar().Info("word3", wordExplain)
