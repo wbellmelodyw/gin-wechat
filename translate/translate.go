@@ -74,9 +74,9 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 				wordAtr += attr.String() + ":"
 			}
 			if index == 1 {
-				temp := attr.Value().([]string)
-				attrMean := strings.Join(temp, ",")
-				wordAtr += attrMean
+				temp := attr.Get("1").String()
+				//attrMean := strings.Join(temp, ",")
+				wordAtr += temp
 			}
 		}
 		logger.Module("test").Sugar().Info("word2", wordAtr)
