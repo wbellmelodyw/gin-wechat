@@ -74,11 +74,11 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	for _, attrs := range result.Array() {
 		wordExplain += attrs.Get("0").String() + ":"
 		for _, attr := range attrs.Get("1").Array() {
-			wordExplain += attr.String() + ","
+			wordExplain += attr.Get("0").String() + "|"
 		}
 		wordExplain += ";"
-		logger.Module("test").Sugar().Info("word3", wordExplain)
 	}
+	logger.Module("test").Sugar().Info("word3", wordExplain)
 	texts = append(texts, wordExplain)
 	//造句
 
