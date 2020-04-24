@@ -7,6 +7,7 @@ import (
 	"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
+	"strconv"
 )
 
 type GoogleTranslator struct {
@@ -46,17 +47,38 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 		SetQueryParamsFromValues(url.Values{
 			"dt": []string{"at", "bd", "ex", "ld", "md", "qca", "rw", "rm", "ss", "t"},
 		}).Get(urll)
-
-	var resp []interface{}
-	//提取翻译
-	//texts := make([]string,5)
-	result := gjson.Get(r.String(), "0.0")
-	var a string
-	for _, name := range result.Array() {
-		a += name.String()
+	if err != nil {
+		return "", err
 	}
-	logger.Module("test").Sugar().Info("resp1", a)
 
+	//提取翻译
+	texts := make([]string, 5)
+	rspJson := r.String()
+	//词意
+	result := gjson.Get(rspJson, "0.0")
+	wordMean := "词意:"
+	for _, name := range result.Array() {
+		if name.String() == "" {
+			break
+		}
+		wordMean += name.String()
+	}
+	texts = append(texts, wordMean)
+	logger.Module("test").Sugar().Info("word", wordMean)
+	//词性
+	result = gjson.Get(rspJson, "1")
+	wordAtr := "词性:"
+	for _, Attrs := range result.Array() {
+		for index, _ := range Attrs.Array() {
+			r := gjson.Get(rspJson, "1."+strconv.Itoa(index)+".0")
+			wordAtr += r.String()
+		}
+	}
+	texts = append(texts, wordAtr)
+	logger.Module("test").Sugar().Info("word2", wordAtr)
+
+	//废弃
+	var resp []interface{}
 	err = json.Unmarshal(r.Body(), &resp)
 	if err != nil {
 		return "", err
