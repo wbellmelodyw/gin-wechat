@@ -7,7 +7,6 @@ import (
 	"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
-	"strings"
 )
 
 type GoogleTranslator struct {
