@@ -12,7 +12,8 @@ import (
 
 func main() {
 	text := "hello,world"
-	translatedText, _ := translate.Text(text, language.English, language.Chinese)
+	traslator := translate.GetGoogle(language.English, language.Chinese)
+	translatedText, _ := traslator.Text(text)
 	fmt.Println("translated:", translatedText)
 	//fmt.Println(language.Chinese.String())
 	if err := config.Init(); err != nil {
