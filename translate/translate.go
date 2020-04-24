@@ -7,7 +7,6 @@ import (
 	"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
-	"strconv"
 	"strings"
 )
 
@@ -68,14 +67,21 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	logger.Module("test").Sugar().Info("word", wordMean)
 	//词性
 	result = gjson.Get(rspJson, "1")
-	wordAtr := "词性:"
-	for index, attr := range result.Array() {
-
-		r := gjson.Get(rspJson, "1."+strconv.Itoa(index)+".0")
-		wordAtr += r.String() + strconv.Itoa(attr.Index)
+	for _, attrs := range result.Array() {
+		wordAtr := "词性:"
+		for index, attr := range attrs.Array() {
+			if index == 0 {
+				wordAtr += attr.String() + ":"
+			}
+			if index == 1 {
+				temp := attr.Value().([]string)
+				attrMean := strings.Join(temp, ",")
+				wordAtr += attrMean
+			}
+		}
+		logger.Module("test").Sugar().Info("word2", wordAtr)
+		texts = append(texts, wordAtr)
 	}
-	texts = append(texts, wordAtr)
-	logger.Module("test").Sugar().Info("word2", wordAtr)
 
 	//废弃
 	var resp []interface{}
