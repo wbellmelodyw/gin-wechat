@@ -74,7 +74,7 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 				wordAtr += attr.String() + ":"
 			}
 			if index == 1 {
-				temp := attr.Get("1").String()
+				temp := attr.String()
 				//attrMean := strings.Join(temp, ",")
 				wordAtr += temp
 			}
