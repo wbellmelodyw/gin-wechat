@@ -74,6 +74,7 @@ func (log *Log) Sugar() *Sugar {
 	for key, value := range log.Fields {
 		sugar.keyAndValues = append(sugar.keyAndValues, key, value)
 	}
+
 	return sugar
 }
 
