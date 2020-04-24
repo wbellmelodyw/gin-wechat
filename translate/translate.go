@@ -8,6 +8,7 @@ import (
 	"golang.org/x/text/language"
 	"net/url"
 	"strconv"
+	"strings"
 )
 
 type GoogleTranslator struct {
@@ -61,18 +62,18 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 		if name.String() == "" {
 			break
 		}
-		wordMean += name.String()
+		wordMean += name.String() + ","
 	}
-	texts = append(texts, wordMean)
+	texts = append(texts, strings.Trim(wordMean, ","))
 	logger.Module("test").Sugar().Info("word", wordMean)
 	//词性
 	result = gjson.Get(rspJson, "1")
 	wordAtr := "词性:"
-	for _, Attrs := range result.Array() {
-		for index, _ := range Attrs.Array() {
-			r := gjson.Get(rspJson, "1."+strconv.Itoa(index)+".0")
-			wordAtr += r.String()
-		}
+	for index, _ := range result.Array() {
+		//for index, _ := range Attrs.Array() {
+		r := gjson.Get(rspJson, "1."+strconv.Itoa(index)+".0")
+		wordAtr += r.String()
+		//}
 	}
 	texts = append(texts, wordAtr)
 	logger.Module("test").Sugar().Info("word2", wordAtr)
