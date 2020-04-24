@@ -23,9 +23,9 @@ func Module(moduleName string) *Log {
 
 func CtxModule(ctx *gin.Context, moduleName string) *Log {
 	fields := logFields{
-		"app_id": ctx.Param("app_id"),
-		//"method": 	   ctx.Request.Method,
-		//"http_status": ctx.Writer.Status(),
+		"app_id":      ctx.Param("app_id"),
+		"method":      ctx.Request.Method,
+		"http_status": ctx.Writer.Status(),
 		"module_name": moduleName, //"gin_weChat",
 	}
 	return &Log{Fields: fields}

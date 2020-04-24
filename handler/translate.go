@@ -12,8 +12,9 @@ import (
 func Chinese(ctx *gin.Context) {
 	text := ctx.Query("text")
 	logger.Module("translate").Sugar().Error("english translate fail", text)
-
-	value, err := translate.Text(text, language.English, language.Chinese)
+	//初始化
+	googleTranslator := translate.GetGoogle(language.English, language.Chinese)
+	value, err := googleTranslator.Text(text)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
@@ -27,7 +28,8 @@ func Chinese(ctx *gin.Context) {
 
 func English(ctx *gin.Context) {
 	text := ctx.Param("text")
-	value, err := translate.Text(text, language.Chinese, language.English)
+	googleTranslator := translate.GetGoogle(language.Chinese, language.English)
+	value, err := googleTranslator.Text(text)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
