@@ -27,6 +27,6 @@ func main() {
 	//
 	//translatedText2, _ := translate.Text("rookie", language.English, language.Chinese)
 	//fmt.Println("translated2:", translatedText2)
-	addr := config.MustGetString("HOST", "localhost:8080")
+	addr := config.MustGetString("HOST", "localhost:80")
 	logger.Module("engine").Sugar().Panic("listen crash", http.ListenAndServe(addr, engine))
 }
