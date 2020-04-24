@@ -21,6 +21,8 @@ require (
 	github.com/spf13/viper v1.6.2
 	github.com/stretchr/testify v1.5.1 // indirect
 	github.com/tebeka/strftime v0.1.3 // indirect
+	github.com/tidwall/gjson v1.6.0 // indirect
+	github.com/tidwall/pretty v1.0.1 // indirect
 	github.com/ugorji/go v1.1.7 // indirect
 	go.uber.org/zap v1.14.1
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
