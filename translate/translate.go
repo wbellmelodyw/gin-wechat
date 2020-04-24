@@ -69,11 +69,10 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	//词性
 	result = gjson.Get(rspJson, "1")
 	wordAtr := "词性:"
-	for index, _ := range result.Array() {
-		//for index, _ := range Attrs.Array() {
+	for index, attr := range result.Array() {
+
 		r := gjson.Get(rspJson, "1."+strconv.Itoa(index)+".0")
-		wordAtr += r.String()
-		//}
+		wordAtr += r.String() + strconv.Itoa(attr.Index)
 	}
 	texts = append(texts, wordAtr)
 	logger.Module("test").Sugar().Info("word2", wordAtr)
