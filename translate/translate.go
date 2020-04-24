@@ -67,18 +67,9 @@ func (g *GoogleTranslator) Text(text string) (string, error) {
 	logger.Module("test").Sugar().Info("word", wordMean)
 	//词性
 	result = gjson.Get(rspJson, "1")
+	wordAtr := "词性:"
 	for _, attrs := range result.Array() {
-		wordAtr := "词性:"
-		for index, attr := range attrs.Array() {
-			if index == 0 {
-				wordAtr += attr.String() + ":"
-			}
-			if index == 1 {
-				temp := attr.String()
-				//attrMean := strings.Join(temp, ",")
-				wordAtr += temp
-			}
-		}
+		wordAtr += attrs.Get("0").String() + ":" + attrs.Get("1").String()
 		logger.Module("test").Sugar().Info("word2", wordAtr)
 		texts = append(texts, wordAtr)
 	}
