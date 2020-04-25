@@ -1,12 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github/wbellmelodyw/gin-wechat/config"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/router"
-	"github/wbellmelodyw/gin-wechat/translate"
-	"golang.org/x/text/language"
 	"net/http"
 )
 
@@ -15,10 +12,10 @@ func main() {
 		logger.Module("system-error").Sugar().Error("load config fail", err)
 		panic(err)
 	}
-	text := "hello,world"
-	translator := translate.GetGoogle(language.English, language.Chinese)
-	translatedText, _ := translator.Text(text)
-	fmt.Println("translated:", translatedText)
+	//text := "hello,world"
+	//translator := translate.GetGoogle(language.English, language.Chinese)
+	//translatedText, _ := translator.Text(text)
+	//fmt.Println("translated:", translatedText)
 	//fmt.Println(language.Chinese.String())
 
 	//初始化路由

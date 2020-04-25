@@ -50,7 +50,7 @@ func (g *GoogleTranslator) Text(text string) ([]string, error) {
 		return []string{}, err
 	}
 	//提取翻译
-	texts := make([]string, 5)
+	texts := make([]string, 0)
 	rspJson := r.String()
 	//词意
 	//result := gjson.Get(rspJson, "0.0")
