@@ -3,6 +3,8 @@ package translate
 import (
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
+	"github/wbellmelodyw/gin-wechat/logger"
+
 	//"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
@@ -76,8 +78,8 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 				texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
 			}
 		}
-
 	}
+	logger.Module("test").Sugar().Info("word3", texts)
 	//texts = append(texts, wordAtr)
 	//解释
 	//result = gjson.Get(rspJson, "12")
