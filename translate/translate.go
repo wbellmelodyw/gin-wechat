@@ -92,7 +92,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	//造句
 	//wordExample := "造句:"
 	exampleResult := gjson.Get(rspJson, "13.0")
-	texts.Example = make([]string, len(exampleResult.Array()))
+	texts.Example = make([]string, 0)
 	for _, example := range exampleResult.Array() {
 		texts.Example = append(texts.Example, example.Get("0").String())
 	}
