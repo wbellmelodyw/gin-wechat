@@ -19,7 +19,7 @@ type Text struct {
 	Mean    string              `json:"mean"`    //词意
 	Attr    map[string][]string `json:"attr"`    //词性
 	Explain map[string][]string `json:"explain"` //解释
-	Example map[string][]string `json:"example"` //造句
+	Example []string            `json:"example"` //造句
 }
 
 func GetGoogle(form, to language.Tag) *GoogleTranslator {
@@ -92,9 +92,9 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	//造句
 	//wordExample := "造句:"
 	exampleResult := gjson.Get(rspJson, "13.0")
-	texts.Example = make(map[string][]string, len(exampleResult.Array()))
+	texts.Example = make([]string, len(exampleResult.Array()))
 	for _, example := range exampleResult.Array() {
-		texts.Example["句子"] = append(texts.Example["句子"], example.Get("0").String())
+		texts.Example = append(texts.Example, example.Get("0").String())
 	}
 	return texts, nil
 }
