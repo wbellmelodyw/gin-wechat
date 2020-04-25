@@ -84,7 +84,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 		attrName := attrs.Get("0").String()
 		if attrName != "" {
 			for _, attr := range attrs.Get("1").Array() {
-				texts.Explain[attrName] = append(texts.Explain[attrName], attr.String())
+				texts.Explain[attrName] = append(texts.Explain[attrName], attr.Get("0").String())
 			}
 		}
 	}
