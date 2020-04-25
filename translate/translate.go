@@ -73,7 +73,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 		//texts.attr["词性"] = append(texts.attr["词性"],)
 		//wordAtr += attrs.Get("0").String() + ":"
 		if attrs.Get("0").String() != "" {
-			texts.Attr[attrs.Get("0").String()] = make([]string, attrs.Get("1").Num)
+			texts.Attr[attrs.Get("0").String()] = make([]string, int(attrs.Get("1").Num))
 			//for _, attr := range attrs.Get("1").Array() {
 			//	texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
 			//}
