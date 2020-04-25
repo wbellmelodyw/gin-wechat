@@ -65,19 +65,19 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	wordMean := "词意:" + gjson.Get(rspJson, "0.0.0").String()
 	texts.mean = wordMean
 	//词性
-	result := gjson.Get(rspJson, "1")
+	//result := gjson.Get(rspJson, "1")
 	//wordAtr := "词性:" //少的用+就行 多才用 strings.builder
-	for _, attrs := range result.Array() {
-		//texts.attr["词性"] = append(texts.attr["词性"],)
-		//wordAtr += attrs.Get("0").String() + ":"
-		if attrs.Get("0").String() != "" {
-			texts.attr[attrs.Get("0").String()] = make([]string, 0)
-			for _, attr := range attrs.Get("1").Array() {
-				texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
-			}
-		}
-
-	}
+	//for _, attrs := range result.Array() {
+	//	//texts.attr["词性"] = append(texts.attr["词性"],)
+	//	//wordAtr += attrs.Get("0").String() + ":"
+	//	if attrs.Get("0").String() != "" {
+	//		texts.attr[attrs.Get("0").String()] = make([]string, 0)
+	//		for _, attr := range attrs.Get("1").Array() {
+	//			texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
+	//		}
+	//	}
+	//
+	//}
 	//texts = append(texts, wordAtr)
 	//解释
 	//result = gjson.Get(rspJson, "12")
