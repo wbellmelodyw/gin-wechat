@@ -78,7 +78,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	//解释
 	result = gjson.Get(rspJson, "12")
 	//wordExplain := "解释:" //少的用+就行 多才用 strings.builder
-	texts.Explain = make(map[string][]string, result.Num)
+	texts.Explain = make(map[string][]string, int(result.Num))
 	logger.Module("test").Sugar().Info("Num", result.Num)
 	for _, attrs := range result.Array() {
 		attrName := attrs.Get("0").String()
