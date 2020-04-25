@@ -17,10 +17,10 @@ type GoogleTranslator struct {
 }
 
 type Text struct {
-	mean    string              //词意
-	attr    map[string][]string //词性
-	explain map[string][]string //解释
-	example map[string][]string //造句
+	Mean    string              //词意
+	Attr    map[string][]string //词性
+	Explain map[string][]string //解释
+	Example map[string][]string //造句
 }
 
 func GetGoogle(form, to language.Tag) *GoogleTranslator {
@@ -65,7 +65,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	//词意
 	//result := gjson.Get(rspJson, "0.0")
 	wordMean := "词意:" + gjson.Get(rspJson, "0.0.0").String()
-	texts.mean = wordMean
+	texts.Mean = wordMean
 	//词性
 	result := gjson.Get(rspJson, "1")
 	//wordAtr := "词性:" //少的用+就行 多才用 strings.builder
@@ -73,13 +73,14 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 		//texts.attr["词性"] = append(texts.attr["词性"],)
 		//wordAtr += attrs.Get("0").String() + ":"
 		if attrs.Get("0").String() != "" {
-			texts.attr[attrs.Get("0").String()] = make([]string, 0)
-			for _, attr := range attrs.Get("1").Array() {
-				texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
-			}
+			//texts.attr[attrs.Get("0").String()] = make([]string, 0)
+			//for _, attr := range attrs.Get("1").Array() {
+			//	texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
+			//}
+			logger.Module("test").Sugar().Info("word3", attrs.Get("0").String())
+
 		}
 	}
-	logger.Module("test").Sugar().Info("word3", texts)
 	//texts = append(texts, wordAtr)
 	//解释
 	//result = gjson.Get(rspJson, "12")
