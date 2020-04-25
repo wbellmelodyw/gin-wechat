@@ -3,7 +3,6 @@ package translate
 import (
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
-	"github/wbellmelodyw/gin-wechat/logger"
 	//"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
@@ -79,7 +78,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	result = gjson.Get(rspJson, "12")
 	//wordExplain := "解释:" //少的用+就行 多才用 strings.builder
 	texts.Explain = make(map[string][]string, int(result.Num))
-	logger.Module("test").Sugar().Info("Num", result.Num)
+	//logger.Module("test").Sugar().Info("Num", result.Num)
 	for _, attrs := range result.Array() {
 		attrName := attrs.Get("0").String()
 		if attrName != "" {
@@ -88,7 +87,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 			}
 		}
 	}
-	logger.Module("test").Sugar().Info("word3", texts)
+	//logger.Module("test").Sugar().Info("word3", texts)
 	//造句
 	//wordExample := "造句:"
 	exampleResult := gjson.Get(rspJson, "13.0")
