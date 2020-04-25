@@ -70,10 +70,13 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	for _, attrs := range result.Array() {
 		//texts.attr["词性"] = append(texts.attr["词性"],)
 		//wordAtr += attrs.Get("0").String() + ":"
-		texts.attr[attrs.Get("0").String()] = make([]string, 0)
-		for _, attr := range attrs.Get("1").Array() {
-			texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
+		if attrs.Get("0").String() != "" {
+			texts.attr[attrs.Get("0").String()] = make([]string, 0)
+			for _, attr := range attrs.Get("1").Array() {
+				texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
+			}
 		}
+
 	}
 	//texts = append(texts, wordAtr)
 	//解释
