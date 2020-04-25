@@ -17,7 +17,7 @@ type GoogleTranslator struct {
 }
 
 type Text struct {
-	Mean    string              //词意
+	Mean    string              `json:"词意"` //词意
 	Attr    map[string][]string //词性
 	Explain map[string][]string //解释
 	Example map[string][]string //造句
