@@ -91,11 +91,11 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	logger.Module("test").Sugar().Info("word3", texts)
 	//造句
 	//wordExample := "造句:"
-	//for _, example := range gjson.Get(rspJson, "13.0").Array() {
-	//	wordExample += example.Get("0").String() + "|"
-	//}
-	//texts = append(texts, wordExample)
-
+	exampleResult := gjson.Get(rspJson, "13.0")
+	texts.Example = make(map[string][]string, len(exampleResult.Array()))
+	for _, example := range exampleResult.Array() {
+		texts.Example["句子"] = append(texts.Example["句子"], example.Get("0").String())
+	}
 	return texts, nil
 }
 
