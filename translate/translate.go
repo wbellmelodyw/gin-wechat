@@ -4,7 +4,6 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
-
 	//"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
@@ -17,10 +16,10 @@ type GoogleTranslator struct {
 }
 
 type Text struct {
-	Mean    string              `json:"mean"` //词意
-	Attr    map[string][]string //词性
-	Explain map[string][]string //解释
-	Example map[string][]string //造句
+	Mean    string              `json:"mean"`    //词意
+	Attr    map[string][]string `json:"attr"`    //词性
+	Explain map[string][]string `json:"explain"` //解释
+	Example map[string][]string `json:"example"` //造句
 }
 
 func GetGoogle(form, to language.Tag) *GoogleTranslator {
@@ -69,34 +68,28 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	//词性
 	texts.Attr = make(map[string][]string, 2)
 	result := gjson.Get(rspJson, "1")
-	//wordAtr := "词性:" //少的用+就行 多才用 strings.builder
 	for _, attrs := range result.Array() {
-		//texts.attr["词性"] = append(texts.attr["词性"],)
-		//wordAtr += attrs.Get("0").String() + ":"
 		if attrs.Get("0").String() != "" {
-
 			for _, attr := range attrs.Get("1").Array() {
 				texts.Attr[attrs.Get("0").String()] = append(texts.Attr[attrs.Get("0").String()], attr.String())
 			}
-			logger.Module("test").Sugar().Info("word3", attrs.Get("0").String())
-
 		}
 	}
-	//texts = append(texts, wordAtr)
 	//解释
-	//result = gjson.Get(rspJson, "12")
+	result = gjson.Get(rspJson, "12")
 	//wordExplain := "解释:" //少的用+就行 多才用 strings.builder
-	//for _, attrs := range result.Array() {
-	//	wordExplain += attrs.Get("0").String() + ":"
-	//	for _, attr := range attrs.Get("1").Array() {
-	//		wordExplain += attr.Get("0").String() + "|"
-	//	}
-	//	wordExplain = strings.TrimRight(wordExplain, "|")
-	//	wordExplain += ";"
-	//}
-	//logger.Module("test").Sugar().Info("word3", wordExplain)
-	//texts = append(texts, wordExplain)
-	////造句
+	texts.Explain = make(map[string][]string, result.Num)
+	logger.Module("test").Sugar().Info("Num", result.Num)
+	for _, attrs := range result.Array() {
+		attrName := attrs.Get("0").String()
+		if attrName != "" {
+			for _, attr := range attrs.Get("1").Array() {
+				texts.Explain[attrName] = append(texts.Explain[attrName], attr.String())
+			}
+		}
+	}
+	logger.Module("test").Sugar().Info("word3", texts)
+	//造句
 	//wordExample := "造句:"
 	//for _, example := range gjson.Get(rspJson, "13.0").Array() {
 	//	wordExample += example.Get("0").String() + "|"
