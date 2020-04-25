@@ -17,7 +17,7 @@ type GoogleTranslator struct {
 }
 
 type Text struct {
-	Mean    string              `json:"词意"` //词意
+	Mean    string              `json:"mean"` //词意
 	Attr    map[string][]string //词性
 	Explain map[string][]string //解释
 	Example map[string][]string //造句
@@ -73,7 +73,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 		//texts.attr["词性"] = append(texts.attr["词性"],)
 		//wordAtr += attrs.Get("0").String() + ":"
 		if attrs.Get("0").String() != "" {
-			//texts.attr[attrs.Get("0").String()] = make([]string, 0)
+			texts.Attr[attrs.Get("0").String()] = make([]string, 0)
 			//for _, attr := range attrs.Get("1").Array() {
 			//	texts.attr[attrs.Get("0").String()] = append(texts.attr[attrs.Get("0").String()], attr.String())
 			//}
