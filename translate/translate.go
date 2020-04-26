@@ -124,7 +124,7 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		"prev":   "input",
 	}
 	client := resty.New()
-	res, err := client.R().SetQueryParams(data).Get(urll)
+	res, err := client.R().SetDoNotParseResponse(true).SetQueryParams(data).Get(urll)
 	defer res.RawBody().Close()
 	if err != nil {
 		logger.Module("audio").Sugar().Error("read", err)
