@@ -98,6 +98,6 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	return texts, nil
 }
 
-//func Audio(text string, from language.Tag, to language.Tag) (string, error) {
+//func Audio(text string) (string, error) {
 //
 //}
