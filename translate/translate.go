@@ -113,15 +113,9 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		"total":   "1",
 		"idx":     "0",
 		"textlen": strconv.Itoa(utf8.RuneCountInString(text)),
-		// "dt":     []string{"at", "bd", "ex", "ld", "md", "qca", "rw", "rm", "ss", "t"},
-		//"oe":   "UTF-8",
-		//"otf":  "1",
-		//"ssel": "0",
-		//"tsel": "0",
-		//"kc":   "7",
-		"tk":     token,
-		"client": "gtx", //"gtx",
-		"prev":   "input",
+		"tk":      token,
+		"client":  "gtx", //"gtx",
+		"prev":    "input",
 	}
 	client := resty.New()
 	res, err := client.R().SetDoNotParseResponse(true).SetQueryParams(data).Get(ttsUrl)
