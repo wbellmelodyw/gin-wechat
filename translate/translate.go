@@ -3,6 +3,10 @@ package translate
 import (
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
+	"github/wbellmelodyw/gin-wechat/logger"
+	"strconv"
+	"unicode/utf8"
+
 	//"github/wbellmelodyw/gin-wechat/logger"
 	"golang.org/x/text/language"
 	"net/url"
@@ -98,6 +102,37 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	return texts, nil
 }
 
-//func Audio(text string) (string, error) {
-//
-//}
+func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
+	token := GetToken(text)
+
+	url := "https://translate.google.cn/translate_tts"
+	data := map[string]string{
+		"ie":      "UTF-8",
+		"client":  "gtx",
+		"q":       text,
+		"tl":      g.to.String(),
+		"total":   "1",
+		"idx":     "0",
+		"textlen": strconv.Itoa(utf8.RuneCountInString(text)),
+		// "dt":     []string{"at", "bd", "ex", "ld", "md", "qca", "rw", "rm", "ss", "t"},
+		//"oe":   "UTF-8",
+		//"otf":  "1",
+		//"ssel": "0",
+		//"tsel": "0",
+		//"kc":   "7",
+		"tk":   token,
+		"prev": "input",
+	}
+	client := resty.New()
+	res, err := client.R().SetQueryParams(data).Get(url)
+	if err != nil {
+		logger.Module("audio").Sugar().Error("read", err)
+		return []byte{}, err
+	}
+	buffer := make([]byte, 4096)
+	_, err = res.RawBody().Read(buffer)
+	if err != nil {
+		logger.Module("audio").Sugar().Error("read", err)
+	}
+	return buffer, nil
+}

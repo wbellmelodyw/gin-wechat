@@ -12,6 +12,7 @@ func Create() *gin.Engine {
 	{
 		translates.GET("chinese", handler.Chinese)
 		translates.GET("english", handler.English)
+		translates.GET("audio", handler.Audio)
 	}
 	return g
 }
