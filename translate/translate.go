@@ -104,7 +104,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 
 func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	token := GetToken(text)
-	urll := "https://translate.google.cn/translate_tts"
+	ttsUrl := "https://translate.google.cn/translate_tts"
 	data := map[string]string{
 		"ie":      "UTF-8",
 		"q":       text,
@@ -123,16 +123,21 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		"prev":   "input",
 	}
 	client := resty.New()
-	res, err := client.R().SetDoNotParseResponse(true).SetQueryParams(data).Get(urll)
+	res, err := client.R().SetDoNotParseResponse(true).SetQueryParams(data).Get(ttsUrl)
 	defer res.RawBody().Close()
 	if err != nil {
-		logger.Module("audio").Sugar().Error("read", err)
+		logger.Module("audio").Sugar().Error("response error", err)
 		return []byte{}, err
 	}
-	buffer := make([]byte, 409600)
-	_, err = res.RawBody().Read(buffer)
-	if err != nil {
-		logger.Module("audio").Sugar().Error("read", err)
+	buffer := make([]byte, 4096)
+	for {
+		n, err := res.RawBody().Read(buffer)
+		if n == 0 || err != nil {
+			logger.Module("audio").Sugar().Info("over", n)
+			logger.Module("audio").Sugar().Error("over", err)
+			break
+		}
 	}
+
 	return buffer, nil
 }
