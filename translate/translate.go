@@ -108,7 +108,6 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	url := "https://translate.google.cn/translate_tts"
 	data := map[string]string{
 		"ie":      "UTF-8",
-		"client":  "gtx",
 		"q":       text,
 		"tl":      g.to.String(),
 		"total":   "1",
@@ -120,8 +119,9 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		//"ssel": "0",
 		//"tsel": "0",
 		//"kc":   "7",
-		"tk":   token,
-		"prev": "input",
+		"tk":     token,
+		"client": "webapp", //"gtx",
+		"prev":   "input",
 	}
 	client := resty.New()
 	res, err := client.R().SetQueryParams(data).Get(url)
