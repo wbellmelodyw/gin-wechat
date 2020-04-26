@@ -104,7 +104,6 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 
 func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	token := GetToken(text)
-	text = "hello"
 	urll := "https://translate.google.cn/translate_tts"
 	data := map[string]string{
 		"ie":      "UTF-8",
@@ -130,7 +129,6 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		logger.Module("audio").Sugar().Error("read", err)
 		return []byte{}, err
 	}
-	logger.Module("audio").Sugar().Info("read", client.R().SetQueryParams(data))
 	buffer := make([]byte, 409600)
 	_, err = res.RawBody().Read(buffer)
 	if err != nil {
