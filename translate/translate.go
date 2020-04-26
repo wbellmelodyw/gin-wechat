@@ -129,6 +129,7 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		logger.Module("audio").Sugar().Error("read", err)
 		return []byte{}, err
 	}
+	logger.Module("audio").Sugar().Info("read", res)
 	buffer := make([]byte, 40960)
 	_, err = res.RawBody().Read(buffer)
 	if err != nil {
