@@ -1,6 +1,7 @@
 package translate
 
 import (
+	"bytes"
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
@@ -130,6 +131,8 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		return []byte{}, err
 	}
 	buffer := make([]byte, 4096)
+	wBuffer := new(bytes.Buffer)
+
 	for {
 		n, err := res.RawBody().Read(buffer)
 		if n == 0 || err != nil {
@@ -137,7 +140,8 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 			logger.Module("audio").Sugar().Error("over", err)
 			break
 		}
+		wBuffer.Write(buffer[:])
 	}
 
-	return buffer, nil
+	return wBuffer.Bytes(), nil
 }
