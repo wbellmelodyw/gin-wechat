@@ -42,14 +42,12 @@ func English(ctx *gin.Context) {
 
 func Audio(ctx *gin.Context) {
 	text := ctx.Query("text")
-	text1 := ctx.Param("text")
-	logger.Module("translate").Sugar().Error("english translate fail", text+text1)
 	googleTranslator := translate.GetGoogle(language.English, language.English)
 	value, err := googleTranslator.Audio(text)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
-	ctx.Header("Content-Type", "audio/mpeg")
+	ctx.Header("Content-Type", "audio/mp3")
 	ctx.Header("transfer-encoding", "identity")
 	ctx.Writer.Write(value)
 }
