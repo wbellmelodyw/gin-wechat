@@ -104,8 +104,8 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 
 func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	token := GetToken(text)
-
-	url := "https://translate.google.cn/translate_tts"
+	text = "hello"
+	urll := "https://translate.google.cn/translate_tts"
 	data := map[string]string{
 		"ie":      "UTF-8",
 		"q":       text,
@@ -124,7 +124,7 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 		"prev":   "input",
 	}
 	client := resty.New()
-	res, err := client.R().SetQueryParams(data).Get(url)
+	res, err := client.R().SetQueryParams(data).Get(urll)
 	if err != nil {
 		logger.Module("audio").Sugar().Error("read", err)
 		return []byte{}, err
