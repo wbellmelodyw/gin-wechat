@@ -11,14 +11,14 @@ import (
 
 func Chinese(ctx *gin.Context) {
 	text := ctx.Query("text")
-	logger.Module("translate").Sugar().Error("english translate fail", text)
+	//logger.Module("translate").Sugar().Error("english translate fail", text)
 	//初始化
 	googleTranslator := translate.GetGoogle(language.English, language.Chinese)
 	value, err := googleTranslator.Text(text)
 	if err != nil {
 		logger.Module("translate").Sugar().Error("english translate fail", err)
 	}
-	logger.Module("translate").Sugar().Error("english translate fail", value)
+	//logger.Module("translate").Sugar().Error("english translate fail", value)
 	ctx.JSON(http.StatusOK, &model.ApiResult{
 		Code: 200,
 		Msg:  "success",
