@@ -24,6 +24,7 @@ func WeChatAuth(ctx *gin.Context) {
 	server := wc.GetServer(ctx.Request, ctx.Writer)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
+		logger.Module("wechat").Sugar().Info("serve error", msg)
 
 		//回复消息：演示回复用户发送的消息
 		text := message.NewText(msg.Content)
