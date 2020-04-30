@@ -6,6 +6,9 @@ import (
 	"github.com/silenceper/wechat/message"
 	myconfig "github/wbellmelodyw/gin-wechat/config"
 	"github/wbellmelodyw/gin-wechat/logger"
+	"github/wbellmelodyw/gin-wechat/translate"
+	"github/wbellmelodyw/gin-wechat/utils"
+	"golang.org/x/text/language"
 )
 
 func WeChatAuth(ctx *gin.Context) {
@@ -24,10 +27,15 @@ func WeChatAuth(ctx *gin.Context) {
 	server := wc.GetServer(ctx.Request, ctx.Writer)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
-		logger.Module("wechat").Sugar().Info("serve error", msg)
 
 		//回复消息：演示回复用户发送的消息
-		text := message.NewText(msg.Content)
+		form, to := utils.GetLanguageTag(msg.Content)
+		translator := translate.GetGoogle(form, to)
+		t, err := translator.Text(msg.Content)
+		if t == nil || err != nil {
+			logger.Module("wechat").Sugar().Error("serve error", err)
+		}
+		text := message.NewText(t.Mean)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	})
 
