@@ -9,7 +9,7 @@ import (
 )
 
 func WeChatAuth(ctx *gin.Context) {
-	logger.Module("wechat").Sugar().Error("serve error", "come")
+	//logger.Module("wechat").Sugar().Error("serve error", "come")
 	//配置微信参数
 	config := &wechat.Config{
 		AppID:          myconfig.GetString("APP_ID"),
@@ -17,7 +17,7 @@ func WeChatAuth(ctx *gin.Context) {
 		Token:          myconfig.GetString("TOKEN"),
 		EncodingAESKey: myconfig.GetString("ENCODING_AES_KEY"),
 	}
-	logger.Module("wechat").Sugar().Error("serve error", config)
+	logger.Module("wechat").Sugar().Info("serve error", config)
 	wc := wechat.NewWechat(config)
 
 	// 传入request和responseWriter
