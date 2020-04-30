@@ -8,7 +8,6 @@ import (
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/translate"
 	"github/wbellmelodyw/gin-wechat/utils"
-	"golang.org/x/text/language"
 )
 
 func WeChatAuth(ctx *gin.Context) {
