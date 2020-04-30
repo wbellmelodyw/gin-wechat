@@ -35,6 +35,14 @@ func WeChatAuth(ctx *gin.Context) {
 			logger.Module("wechat").Sugar().Error("serve error", err)
 		}
 		text := message.NewText(t.Mean)
+		//发送其他的给他
+		openId := server.GetOpenID()
+		c := message.NewMessageManager(wc.Context)
+		for a, attr := range t.Attr {
+			for _, aa := range attr {
+				c.Send(message.NewCustomerTextMessage(openId, a+":"+aa))
+			}
+		}
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	})
 
