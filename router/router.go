@@ -14,5 +14,9 @@ func Create() *gin.Engine {
 		translates.GET("english", handler.English)
 		translates.GET("audio", handler.Audio)
 	}
+	wechat := g.Group("/wechat")
+	{
+		wechat.GET("auth", handler.WeChatAuth)
+	}
 	return g
 }
