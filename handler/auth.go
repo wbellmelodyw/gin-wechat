@@ -40,7 +40,8 @@ func WeChatAuth(ctx *gin.Context) {
 		c := message.NewMessageManager(wc.Context)
 		for a, attr := range t.Attr {
 			for _, aa := range attr {
-				c.Send(message.NewCustomerTextMessage(openId, a+":"+aa))
+				err := c.Send(message.NewCustomerTextMessage(openId, a+":"+aa))
+				logger.Module("wechat").Sugar().Error("message error", err)
 			}
 		}
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
