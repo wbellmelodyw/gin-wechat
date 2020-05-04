@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/silenceper/wechat"
 	"github.com/silenceper/wechat/message"
+	"github/wbellmelodyw/gin-wechat/cache"
 	myconfig "github/wbellmelodyw/gin-wechat/config"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/translate"
@@ -18,6 +19,7 @@ func WeChatAuth(ctx *gin.Context) {
 		AppSecret:      myconfig.GetString("APP_SECRET"),
 		Token:          myconfig.GetString("TOKEN"),
 		EncodingAESKey: myconfig.GetString("ENCODING_AES_KEY"),
+		Cache:          cache.NewCache(),
 	}
 	logger.Module("wechat").Sugar().Info("serve error", config)
 	wc := wechat.NewWechat(config)
