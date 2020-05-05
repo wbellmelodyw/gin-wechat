@@ -7,5 +7,5 @@ ENV GOPROXY=https://goproxy.cn
 RUN apk add --no-cache gcc musl-dev git
 #ADD gotify-app /app/
 EXPOSE 80
-#ENTRYPOINT ["./gin-wechat"]
+ENTRYPOINT ["./gin-wechat"]
 #docker build -f="docker/Dockerfile" -t gin-wechat .
