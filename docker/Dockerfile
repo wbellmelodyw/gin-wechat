@@ -1,6 +1,6 @@
 FROM golang:alpine
 WORKDIR /app
-COPY ./release/gin-wechat /app/
+COPY ../release/gin-wechat /app/
 ENV GO111MODULE=on
 ENV GOPROXY=https://goproxy.cn
 #RUN apk add --no-cache gcc musl-dev git && go build -v
