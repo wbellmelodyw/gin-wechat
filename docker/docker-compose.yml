@@ -14,7 +14,7 @@ services:
     volumes:
       - /wechat_data/logs:/logs
     networks:
-      -backend
+      - backend
 ### 主库 ##################################
   mysql-master:
     build:
@@ -24,7 +24,7 @@ services:
       - "MYSQL_ROOT_PASSWORD=890418"
       - "MYSQL_DATABASE=wechat_todo"
     networks:
-      -backend
+      - backend
     ports:
       - "33065:3306"
     restart: always
