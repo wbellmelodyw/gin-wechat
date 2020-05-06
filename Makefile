@@ -10,7 +10,7 @@ GO_VERSION=`cat GO_VERSION`
 
 
 default:
-    @go build -ldflags '-linkmode external -w -extldflags "-static"' -o release/gin-wechat
+	@go build -ldflags '-linkmode external -w -extldflags "-static"' -o release/gin-wechat
 
 #build:go build -ldflags '-linkmode external -w -extldflags "-static"' -o release/gin-wechat
 
