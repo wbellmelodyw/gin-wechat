@@ -8,7 +8,7 @@ services:
   gin-wechat:
     build:
       context: ../
-      dockerfile: gin-wechat/Dockerfile
+      dockerfile: docker/gin-wechat/Dockerfile
     ports:
       - "80:80"
     volumes:
