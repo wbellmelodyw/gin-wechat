@@ -1,0 +1,67 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+services:
+  ### web ##################################
+  gin-wechat:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - /wechat_data/logs:/logs
+    networks:
+      -backend
+### 主库 ##################################
+  mysql-master:
+    build:
+      context: ./
+      dockerfile: master/Dockerfile
+    environment:
+      - "MYSQL_ROOT_PASSWORD=890418"
+      - "MYSQL_DATABASE=wechat_todo"
+    networks:
+      -backend
+    ports:
+      - "33065:3306"
+    restart: always
+    hostname: mysql-master
+
+### 从库 ##################################
+  #ysql-slave:
+  # build:
+  #   context: ./
+  #   dockerfile: slave/Dockerfile
+  # environment:
+  #   - "MYSQL_ROOT_PASSWORD=890418"
+  #   - "MYSQL_DATABASE=wechat_todo"
+  # ports:
+  #   - "33066:3306"
+  # restart: always
+  # hostname: mysql-slave
+### ElasticSearch ########################################
+  #elasticsearch:
+  #  build:
+  #    context: ./elasticsearch
+  #    args:
+  #      - ELK_VERSION=7.5.1
+  #  volumes:
+  #    - ${DATA_PATH_HOST}elasticsearch:/usr/share/elasticsearch/data
+  #  environment:
+  #    - cluster.name=laradock-cluster
+  #    - node.name=laradock-node
+  #    - bootstrap.memory_lock=true
+  #    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #    - cluster.initial_master_nodes=laradock-node
+  #  ulimits:
+  #    memlock:
+  #      soft: -1
+  #      hard: -1
+  #  ports:
+  #    - "${ELASTICSEARCH_HOST_HTTP_PORT}:9200"
+  #    - "${ELASTICSEARCH_HOST_TRANSPORT_PORT}:9300"
+  #  networks:
+  #    - backend
