@@ -46,3 +46,4 @@ jobs:
         script: |
           cd we
           git pull https://github.com/wbellmelodyw/gin-wechat master
+          go build -ldflags '-linkmode external -w -extldflags "-static"' -o release/gin-wechat
