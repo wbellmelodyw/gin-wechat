@@ -46,5 +46,5 @@ jobs:
         script: |
           cd we
           git pull https://github.com/wbellmelodyw/gin-wechat master
-          ource ~/.zsh_profile
+          source ~/.zsh_profile
           echo $PATH
