@@ -67,7 +67,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 	rspJson := r.String()
 	//词意
 	//result := gjson.Get(rspJson, "0.0")
-	wordMean := "词意:" + gjson.Get(rspJson, "0.0.0").String()
+	wordMean := gjson.Get(rspJson, "0.0.0").String()
 	texts.Mean = wordMean
 	//词性
 	texts.Attr = make(map[string][]string, 2)
