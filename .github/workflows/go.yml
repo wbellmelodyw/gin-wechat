@@ -48,3 +48,6 @@ jobs:
           git pull https://github.com/wbellmelodyw/gin-wechat master
           source ~/.zsh_profile
           make
+          cd docker
+          docker-compose build gin-wechat
+          docker-compose up -d
