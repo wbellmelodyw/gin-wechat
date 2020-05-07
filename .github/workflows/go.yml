@@ -51,4 +51,6 @@ jobs:
           cd docker
           docker-compose build gin-wechat
           docker-compose up -d
+          docker container prune
+          docker image prune
 
