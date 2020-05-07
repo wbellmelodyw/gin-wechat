@@ -46,4 +46,4 @@ jobs:
         script: |
           cd we
           git pull https://github.com/wbellmelodyw/gin-wechat master
-          make
+          go version
