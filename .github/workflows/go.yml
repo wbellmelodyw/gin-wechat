@@ -47,4 +47,4 @@ jobs:
           cd we
           git pull https://github.com/wbellmelodyw/gin-wechat master
           source ~/.zsh_profile
-          echo $PATH
+          make
