@@ -1,7 +1,7 @@
 #LICENSE_DIR=./licenses/
 #BUILD_DIR=./build
 #DOCKER_DIR=./docker/
-SHELL := /bin/bash
+SHELL := /bin/zsh
 GO_VERSION=`cat GO_VERSION`
 #DOCKER_BUILD_IMAGE=gotify/build
 #DOCKER_WORKDIR=/proj
