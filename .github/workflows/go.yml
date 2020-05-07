@@ -49,8 +49,6 @@ jobs:
           source ~/.zsh_profile
           make
           cd docker
-          docker-compose build gin-wechatd
+          docker-compose build gin-wechat
           docker-compose up -d
-          docker container prune
-          docker image prune
 
