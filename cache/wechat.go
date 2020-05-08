@@ -1,6 +1,7 @@
 package cache
 
 import (
+	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/utils"
 	"time"
 )
@@ -16,6 +17,10 @@ func NewCache() *weCache {
 
 func (we *weCache) Get(key string) interface{} {
 	s := we.cache.Get(key)
+	logger.Module("wechat").Sugar().Error("key", s)
+	if s == "nil" {
+		return nil
+	}
 	return s
 }
 func (we *weCache) Set(key string, val interface{}, timeout time.Duration) error {
