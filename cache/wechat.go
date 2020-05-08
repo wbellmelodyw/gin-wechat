@@ -22,6 +22,7 @@ func (we *weCache) Set(key string, val interface{}, timeout time.Duration) error
 	_ = we.cache.Set(key, val, timeout)
 	return nil
 }
+
 func (we *weCache) IsExist(key string) bool {
 	result := we.cache.Exists(key)
 	return result == 1
