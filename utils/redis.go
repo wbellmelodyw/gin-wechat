@@ -71,7 +71,7 @@ func (r *Redis) TTL(key string, time time.Duration, values ...interface{}) time.
 
 func (r *Redis) Get(key string) string {
 	stringCmd := r.client.Get(key)
-	return stringCmd.String()
+	return stringCmd.Val()
 }
 
 // @title
