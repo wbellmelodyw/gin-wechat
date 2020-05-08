@@ -30,14 +30,14 @@ services:
     restart: always
     hostname: mysql-master
   ### Redis ################################################
-    redis:
-      build: ./redis
-      volumes:
-        - /wechat_data/redis:/data
-      ports:
-        - "6379:6379"
-      networks:
-        - backend
+  redis:
+    build: ./redis
+    volumes:
+      - /wechat_data/redis:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
 ### 从库 ##################################
   #ysql-slave:
   # build:
