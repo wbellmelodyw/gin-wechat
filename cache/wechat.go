@@ -17,8 +17,8 @@ func NewCache() *weCache {
 
 func (we *weCache) Get(key string) interface{} {
 	s := we.cache.Get(key)
-	logger.Module("wechat").Sugar().Error("key", s)
-	if s == "nil" {
+	logger.Module("wechat").Sugar().Info("key", s)
+	if s == "" {
 		return nil
 	}
 	return s
