@@ -1,29 +1,32 @@
 package cache
 
 import (
-	"github.com/allegro/bigcache"
+	"github/wbellmelodyw/gin-wechat/utils"
 	"time"
 )
 
 type weCache struct {
-	cache *bigcache.BigCache
+	cache *utils.Redis
 }
 
 func NewCache() *weCache {
-	cache, _ = bigcache.NewBigCache(bigcache.DefaultConfig(60 * time.Minute)) //1小时
+	cache := utils.Get("DEFAULT") //1小时
 	return &weCache{cache: cache}
 }
 
 func (we *weCache) Get(key string) interface{} {
-	s, _ := we.cache.Get(key)
-	return string(s)
+	s := we.cache.Get(key)
+	return s
 }
 func (we *weCache) Set(key string, val interface{}, timeout time.Duration) error {
-	return we.cache.Set(key, val.([]byte))
+	_ := we.cache.Set(key, val, timeout)
+	return nil
 }
 func (we *weCache) IsExist(key string) bool {
-	return false
+	result := we.cache.Exists(key)
+	return result == 1
 }
 func (we *weCache) Delete(key string) error {
-	return we.cache.Delete(key)
+	_ := we.cache.Del(key)
+	return nil
 }

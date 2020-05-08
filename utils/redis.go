@@ -123,6 +123,17 @@ func (r *Redis) HDel(key string, fields ...string) int64 {
 // @param         输入参数名        参数类型         "解释"
 // @return        返回参数名        参数类型         "解释"
 
+func (r *Redis) Del(key string, fields ...string) int64 {
+	intCmd := r.client.Del(key)
+	return intCmd.Val()
+}
+
+// @title
+// @description
+// @author        jeffrey  2020-04-08 10:48
+// @param         输入参数名        参数类型         "解释"
+// @return        返回参数名        参数类型         "解释"
+
 func (r *Redis) HSetEx(key string, time time.Duration, values ...interface{}) int64 {
 	intCmd := r.client.HSet(key, values...)
 	r.client.Expire(key, time)
@@ -181,4 +192,9 @@ func (r *Redis) SRemove(key string, members ...interface{}) int64 {
 func (r *Redis) SMember(key string) []string {
 	stringSliceCmd := r.client.SMembers(key)
 	return stringSliceCmd.Val()
+}
+
+func (r *Redis) Exists(key string) int64 {
+	IntCmd := r.client.Exists(key)
+	return IntCmd.Val()
 }
