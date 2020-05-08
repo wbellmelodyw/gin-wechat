@@ -21,7 +21,7 @@ func WeChatAuth(ctx *gin.Context) {
 		EncodingAESKey: myconfig.GetString("ENCODING_AES_KEY"),
 		Cache:          cache.NewCache(),
 	}
-	logger.Module("wechat").Sugar().Info("serve error", config)
+	logger.Module("wechat").Sugar().Info("config info", config)
 	wc := wechat.NewWechat(config)
 
 	// 传入request和responseWriter
@@ -40,6 +40,13 @@ func WeChatAuth(ctx *gin.Context) {
 		//发送其他的给他
 		openId := server.GetOpenID()
 		c := message.NewMessageManager(wc.Context)
+		access, err := c.Context.GetAccessToken()
+		if err != nil {
+			logger.Module("wechat").Sugar().Info("access err", err)
+
+		}
+		logger.Module("wechat").Sugar().Info("access info", access)
+
 		for a, attr := range t.Attr {
 			for _, aa := range attr {
 
