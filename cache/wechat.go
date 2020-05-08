@@ -19,7 +19,7 @@ func (we *weCache) Get(key string) interface{} {
 	return s
 }
 func (we *weCache) Set(key string, val interface{}, timeout time.Duration) error {
-	_ := we.cache.Set(key, val, timeout)
+	_ = we.cache.Set(key, val, timeout)
 	return nil
 }
 func (we *weCache) IsExist(key string) bool {
@@ -27,6 +27,6 @@ func (we *weCache) IsExist(key string) bool {
 	return result == 1
 }
 func (we *weCache) Delete(key string) error {
-	_ := we.cache.Del(key)
+	_ = we.cache.Del(key)
 	return nil
 }
