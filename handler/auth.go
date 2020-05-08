@@ -28,32 +28,33 @@ func WeChatAuth(ctx *gin.Context) {
 	server := wc.GetServer(ctx.Request, ctx.Writer)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
-
-		//回复消息：演示回复用户发送的消息
+		//回复消息
 		form, to := utils.GetLanguageTag(msg.Content)
 		translator := translate.GetGoogle(form, to)
 		t, err := translator.Text(msg.Content)
 		if t == nil || err != nil {
 			logger.Module("wechat").Sugar().Error("serve error", err)
 		}
-		text := message.NewText(t.Mean)
+		//异步获取音频文件,中文大家都会，只获取英语读音
+		//audioText := make(chan string)
+		//go fetchAudio(audioText)
+		//if form == language.English {
+		//	audioText <- msg.Content
+		//}else{
+		//	audioText <- t.Mean
+		//}
+		//异步存入sql
+
 		//发送其他的给他
-		openId := server.GetOpenID()
-		c := message.NewMessageManager(wc.Context)
-		access, err := c.Context.GetAccessToken()
-		if err != nil {
-			logger.Module("wechat").Sugar().Info("access err", err)
-
-		}
-		logger.Module("wechat").Sugar().Info("access info", access)
-
-		for a, attr := range t.Attr {
-			for _, aa := range attr {
-
-				err := c.Send(message.NewCustomerTextMessage(openId, a+":"+aa))
-				logger.Module("wechat").Sugar().Error("message error", err)
-			}
-		}
+		//openId := server.GetOpenID()
+		//c := message.NewMessageManager(wc.Context)
+		//for a, attr := range t.Attr {
+		//	for _, aa := range attr {
+		//		err := c.Send(message.NewCustomerTextMessage(openId, a+":"+aa))
+		//		logger.Module("wechat").Sugar().Error("message error", err)
+		//	}
+		//}
+		text := message.NewText(t.Mean)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	})
 
@@ -66,3 +67,8 @@ func WeChatAuth(ctx *gin.Context) {
 	//发送回复的消息
 	server.Send()
 }
+
+//异步提取音频
+//func fetchAudio(text chan string){
+//
+//}
