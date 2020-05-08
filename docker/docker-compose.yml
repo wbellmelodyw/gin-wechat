@@ -35,7 +35,7 @@ services:
       volumes:
         - /wechat_data/redis:/data
       ports:
-        - "${REDIS_PORT}:6379"
+        - "6379:6379"
       networks:
         - backend
 ### 从库 ##################################
