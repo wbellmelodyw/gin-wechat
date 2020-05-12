@@ -10,6 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-redis/redis/v7 v7.2.0
 	github.com/go-resty/resty/v2 v2.2.0
+	github.com/go-xorm/xorm v0.7.9 // indirect
 	github.com/gomodule/redigo/redis v0.0.0-20200429221454-e14091dffc1b // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/json-iterator/go v1.1.7 // indirect

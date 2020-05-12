@@ -36,9 +36,9 @@ func Get(name string) *Redis {
 	}
 
 	c := redis.NewClient(&redis.Options{
-		Addr:     config.MustGetString("REDIS_"+name+"_HOST", "redis:6379"),
-		Password: config.MustGetString("REDIS_"+name+"_PASSWORD", ""), // no password set
-		DB:       0,                                                   // use default DB
+		Addr:     config.MustString("REDIS_"+name+"_HOST", "redis:6379"),
+		Password: config.MustString("REDIS_"+name+"_PASSWORD", ""), // no password set
+		DB:       0,                                                // use default DB
 	})
 
 	r = &Redis{

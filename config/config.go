@@ -17,8 +17,14 @@ func Init() (err error) {
 }
 
 // GetString 获取字符串配置
-func MustGetString(key, defaultValue string) string {
+func MustString(key, defaultValue string) string {
 	if value := viper.GetString(key); value != "" {
+		return value
+	}
+	return defaultValue
+}
+func MustInt(key string, defaultValue int) int {
+	if value := viper.GetInt(key); value != 0 {
 		return value
 	}
 	return defaultValue
