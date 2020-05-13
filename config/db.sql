@@ -8,5 +8,5 @@ CREATE TABLE `word` (
   `media_id` varchar(256) NOT NULL DEFAULT '' COMMENT '素材id',
   `created_at` timestamp NOT NULL DEFAULT '2020-01-01 12:00:00',
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='单词表';
