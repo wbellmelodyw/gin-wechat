@@ -5,6 +5,7 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
+	"github/wbellmelodyw/gin-wechat/model"
 	"strconv"
 	"unicode/utf8"
 
@@ -19,13 +20,6 @@ type GoogleTranslator struct {
 	to   language.Tag //要翻译成
 }
 
-type Text struct {
-	Mean    string              `json:"mean"`    //词意
-	Attr    map[string][]string `json:"attr"`    //词性
-	Explain map[string][]string `json:"explain"` //解释
-	Example []string            `json:"example"` //造句
-}
-
 func GetGoogle(form, to language.Tag) *GoogleTranslator {
 	return &GoogleTranslator{
 		form,
@@ -33,7 +27,7 @@ func GetGoogle(form, to language.Tag) *GoogleTranslator {
 	}
 }
 
-func (g *GoogleTranslator) Text(text string) (*Text, error) {
+func (g *GoogleTranslator) Text(text string) (*model.Text, error) {
 	token := GetToken(text)
 
 	urll := "https://translate.google.com/translate_a/single"
@@ -59,7 +53,7 @@ func (g *GoogleTranslator) Text(text string) (*Text, error) {
 			"dt": []string{"at", "bd", "ex", "ld", "md", "qca", "rw", "rm", "ss", "t"},
 		}).Get(urll)
 	//提取翻译
-	texts := new(Text)
+	texts := new(model.Text)
 	if err != nil {
 		return texts, err
 	}

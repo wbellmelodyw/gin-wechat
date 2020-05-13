@@ -8,7 +8,7 @@ import (
 )
 
 var dns string
-var wechatDB *xorm.Engine
+var weChatDB *xorm.Engine
 
 //程序开始执行
 func init() {
@@ -22,23 +22,23 @@ func init() {
 		panic(err)
 	}
 
-	if err := wechatDB.Ping(); err != nil {
+	if err := weChatDB.Ping(); err != nil {
 		panic(err)
 	}
 }
 
 func initEngine() (err error) {
-	wechatDB, err = xorm.NewEngine("mysql", dns)
+	weChatDB, err = xorm.NewEngine("mysql", dns)
 	if err != nil {
 		return
 	}
-	wechatDB.SetMaxIdleConns(2)
-	wechatDB.SetMaxOpenConns(10)
+	weChatDB.SetMaxIdleConns(2)
+	weChatDB.SetMaxOpenConns(10)
 
 	showSQL := config.GetBool("show_sql")
 	logLevel := config.MustInt("log_level", 1)
 
-	wechatDB.ShowSQL(showSQL)
-	wechatDB.Logger().SetLevel(core.LogLevel(logLevel))
+	weChatDB.ShowSQL(showSQL)
+	weChatDB.Logger().SetLevel(core.LogLevel(logLevel))
 	return
 }
