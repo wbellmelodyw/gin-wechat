@@ -29,7 +29,7 @@ func TestConn(t *testing.T) {
 	}
 	word.DstExplain = strings.Join(explain, "\n")
 	word.DstExample = strings.Join(text.Example, "\n")
-	row, err := weChatDB.Insert(word)
+	row, err := WeChat.Insert(word)
 	if row == 0 || err != nil {
 		fmt.Println(row)
 		fmt.Println(err)

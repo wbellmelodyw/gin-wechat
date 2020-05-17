@@ -8,6 +8,7 @@ type GoogleTranslator struct {
 }
 
 type Text struct {
+	Content string              `json:"content"` //词
 	Mean    string              `json:"mean"`    //词意
 	Attr    map[string][]string `json:"attr"`    //词性
 	Explain map[string][]string `json:"explain"` //解释

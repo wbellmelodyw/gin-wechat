@@ -9,12 +9,12 @@ import (
 )
 
 var dns string
-var weChatDB *xorm.Engine
+var WeChat *xorm.Engine
 
 //程序开始执行
 func init() {
 	dns = fmt.Sprintf("root:890418@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
-		"172.21.0.3", //"mysql-master",
+		"mysql-master", //"172.21.0.3",
 		"3306",
 		"wechat_todo",
 		"utf8mb4")
@@ -23,24 +23,24 @@ func init() {
 		panic(err)
 	}
 
-	if err := weChatDB.Ping(); err != nil {
+	if err := WeChat.Ping(); err != nil {
 		panic(err)
 	}
 }
 
 func initEngine() (err error) {
-	weChatDB, err = xorm.NewEngine("mysql", dns)
+	WeChat, err = xorm.NewEngine("mysql", dns)
 	if err != nil {
 		return
 	}
-	weChatDB.SetMaxIdleConns(2)
-	weChatDB.SetMaxOpenConns(10)
+	WeChat.SetMaxIdleConns(2)
+	WeChat.SetMaxOpenConns(10)
 
 	showSQL := config.GetBool("show_sql")
 	logLevel := config.MustInt("log_level", 1)
 
-	weChatDB.ShowSQL(showSQL)
+	WeChat.ShowSQL(showSQL)
 	//weChatDB.SetLogger(logger.Module("db").Sugar())
-	weChatDB.Logger().SetLevel(core.LogLevel(logLevel))
+	WeChat.Logger().SetLevel(core.LogLevel(logLevel))
 	return
 }

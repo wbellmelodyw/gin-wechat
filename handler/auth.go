@@ -6,9 +6,12 @@ import (
 	"github.com/silenceper/wechat/message"
 	"github/wbellmelodyw/gin-wechat/cache"
 	myconfig "github/wbellmelodyw/gin-wechat/config"
+	"github/wbellmelodyw/gin-wechat/db"
 	"github/wbellmelodyw/gin-wechat/logger"
+	"github/wbellmelodyw/gin-wechat/model"
 	"github/wbellmelodyw/gin-wechat/translate"
 	"github/wbellmelodyw/gin-wechat/utils"
+	"strings"
 )
 
 func WeChatAuth(ctx *gin.Context) {
@@ -44,7 +47,7 @@ func WeChatAuth(ctx *gin.Context) {
 		//	audioText <- t.Mean
 		//}
 		//异步存入sql
-
+		insert(t)
 		//发送其他的给他
 		//openId := server.GetOpenID()
 		//c := message.NewMessageManager(wc.Context)
@@ -66,6 +69,28 @@ func WeChatAuth(ctx *gin.Context) {
 	}
 	//发送回复的消息
 	server.Send()
+}
+
+func insert(text *model.Text) {
+	word := new(model.Word)
+	word.SrcContent = text.Content
+	word.DstContent = text.Mean
+	attrs := make([]string, 2)
+	for name, attr := range text.Attr {
+		attrs = append(attrs, name+strings.Join(attr, ";"))
+	}
+	word.DstAttr = strings.Join(attrs, "\n")
+	explain := make([]string, 2)
+	for name, e := range text.Attr {
+		explain = append(explain, name+strings.Join(e, ";"))
+	}
+	word.DstExplain = strings.Join(explain, "\n")
+	word.DstExample = strings.Join(text.Example, "\n")
+	row, err := db.WeChat.Insert(word)
+	if err != nil {
+		logger.Module("db").Sugar().Panic("insert error", err)
+	}
+	logger.Module("db").Sugar().Panic("insert row", row)
 }
 
 //异步提取音频

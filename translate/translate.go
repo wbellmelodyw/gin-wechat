@@ -54,6 +54,7 @@ func (g *GoogleTranslator) Text(text string) (*model.Text, error) {
 		}).Get(urll)
 	//提取翻译
 	texts := new(model.Text)
+	texts.Content = text
 	if err != nil {
 		return texts, err
 	}
