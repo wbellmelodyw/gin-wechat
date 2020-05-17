@@ -19,7 +19,7 @@ func init() {
 		"wechat_todo",
 		"utf8mb4")
 
-	if err := initEngine; err != nil {
+	if err := initEngine(); err != nil {
 		panic(err)
 	}
 
