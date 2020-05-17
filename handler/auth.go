@@ -32,6 +32,19 @@ func WeChatAuth(ctx *gin.Context) {
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
 		//回复消息
+		//先从数据库查,找不到再去调google
+		w := model.Word{
+			SrcContent: msg.Content,
+		}
+		ok, err := db.WeChat.Get(&w)
+		if err != nil {
+			logger.Module("db").Sugar().Panic("insert error", err)
+		}
+		if ok {
+			text := message.NewText(w.DstContent)
+			return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+		}
+
 		form, to := utils.GetLanguageTag(msg.Content)
 		translator := translate.GetGoogle(form, to)
 		t, err := translator.Text(msg.Content)
@@ -90,7 +103,7 @@ func insert(text *model.Text) {
 	if err != nil {
 		logger.Module("db").Sugar().Panic("insert error", err)
 	}
-	logger.Module("db").Sugar().Panic("insert row", row)
+	logger.Module("db").Sugar().Info("insert row", row)
 }
 
 //异步提取音频
