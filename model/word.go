@@ -16,7 +16,7 @@ type Word struct {
 	// DstExample 例子
 	DstExample string `json:"dst_example"`
 	// MediaID 素材id
-	MediaID   string    `json:"media_id"`
+	MediaId   string    `json:"media_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
