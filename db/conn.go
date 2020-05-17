@@ -13,7 +13,7 @@ var weChatDB *xorm.Engine
 
 //程序开始执行
 func init() {
-	dns = fmt.Sprintf("root:a890418@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
+	dns = fmt.Sprintf("root:890418@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
 		"172.21.0.3", //"mysql-master",
 		"3306",
 		"wechat_todo",
