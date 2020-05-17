@@ -34,4 +34,6 @@ func TestConn(t *testing.T) {
 		fmt.Println(row)
 		fmt.Println(err)
 	}
+	fmt.Println(row)
+	fmt.Println(err)
 }
