@@ -4,7 +4,7 @@ import "time"
 
 type Word struct {
 	// ID 自增id
-	ID int32 `json:"id"`
+	Id int32 `json:"id"`
 	// SrcContent 需要翻译单词
 	SrcContent string `json:"src_content"`
 	// DstContent 翻译结果
