@@ -60,7 +60,9 @@ func WeChatAuth(ctx *gin.Context) {
 		//	audioText <- t.Mean
 		//}
 		//异步存入sql
-		insert(t)
+		tChan := make(chan *model.Text)
+		go insert(tChan)
+		tChan <- t
 		//发送其他的给他
 		//openId := server.GetOpenID()
 		//c := message.NewMessageManager(wc.Context)
@@ -84,7 +86,8 @@ func WeChatAuth(ctx *gin.Context) {
 	server.Send()
 }
 
-func insert(text *model.Text) {
+func insert(textChan <-chan *model.Text) {
+	text := <-textChan
 	word := new(model.Word)
 	word.SrcContent = text.Content
 	word.DstContent = text.Mean
