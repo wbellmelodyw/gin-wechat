@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"github/wbellmelodyw/gin-wechat/config"
 	"xorm.io/core"
@@ -39,6 +40,7 @@ func initEngine() (err error) {
 	logLevel := config.MustInt("log_level", 1)
 
 	weChatDB.ShowSQL(showSQL)
+	//weChatDB.SetLogger(logger.Module("db").Sugar())
 	weChatDB.Logger().SetLevel(core.LogLevel(logLevel))
 	return
 }

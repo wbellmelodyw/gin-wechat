@@ -10,7 +10,8 @@ require (
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-redis/redis/v7 v7.2.0
 	github.com/go-resty/resty/v2 v2.2.0
-	github.com/go-xorm/xorm v0.7.9 // indirect
+	github.com/go-sql-driver/mysql v1.4.1
+	github.com/go-xorm/xorm v0.7.9
 	github.com/gomodule/redigo/redis v0.0.0-20200429221454-e14091dffc1b // indirect
 	github.com/jehiah/go-strftime v0.0.0-20171201141054-1d33003b3869 // indirect
 	github.com/json-iterator/go v1.1.7 // indirect
@@ -23,7 +24,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/silenceper/wechat v2.0.1+incompatible
 	github.com/spf13/viper v1.6.2
-	github.com/stretchr/testify v1.5.1 // indirect
+	github.com/stretchr/testify v1.5.1
 	github.com/tebeka/strftime v0.1.3 // indirect
 	github.com/tidwall/gjson v1.6.0
 	github.com/tidwall/pretty v1.0.1 // indirect
@@ -37,4 +38,5 @@ require (
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 	honnef.co/go/tools v0.0.1-2020.1.3 // indirect
+	xorm.io/core v0.7.2-0.20190928055935-90aeac8d08eb
 )
