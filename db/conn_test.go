@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"github/wbellmelodyw/gin-wechat/model"
 	"github/wbellmelodyw/gin-wechat/translate"
 	"golang.org/x/text/language"
@@ -30,6 +31,7 @@ func TestConn(t *testing.T) {
 	word.DstExample = strings.Join(text.Example, "\n")
 	row, err := weChatDB.Insert(word)
 	if row == 0 || err != nil {
-		t.Error(err)
+		fmt.Println(row)
+		fmt.Println(err)
 	}
 }
