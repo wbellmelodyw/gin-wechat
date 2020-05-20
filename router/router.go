@@ -16,6 +16,7 @@ func Create() *gin.Engine {
 	}
 	wechat := g.Group("/wechat")
 	{
+		wechat.GET("create_menu", handler.CreateMenu)
 		wechat.GET("auth", handler.WeChatAuth)
 		wechat.POST("auth", handler.WeChatAuth)
 	}
