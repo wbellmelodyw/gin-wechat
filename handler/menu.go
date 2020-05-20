@@ -25,10 +25,32 @@ func CreateMenu(ctx *gin.Context) {
 
 	// 传入request和responseWriter
 	server := wc.GetServer(ctx.Request, ctx.Writer)
-	buttons := make([]*menu.Button, 3)
-	buttons[0].SetClickButton("词性", "attr")
-	buttons[1].SetClickButton("解释", "explain")
-	buttons[2].SetClickButton("造句", "example")
+	buttons := make([]*menu.Button, 0)
+	a := &menu.Button{
+		Type:       "click",
+		Name:       "词性",
+		Key:        "attr",
+		URL:        "",
+		MediaID:    "",
+		SubButtons: nil,
+	}
+	b := &menu.Button{
+		Type:       "click",
+		Name:       "词性",
+		Key:        "attr",
+		URL:        "",
+		MediaID:    "",
+		SubButtons: nil,
+	}
+	c := &menu.Button{
+		Type:       "click",
+		Name:       "词性",
+		Key:        "attr",
+		URL:        "",
+		MediaID:    "",
+		SubButtons: nil,
+	}
+	buttons = append(buttons, a, b, c)
 	menus := menu.NewMenu(server.Context)
 	err := menus.SetMenu(buttons)
 	logger.Module("wechat").Sugar().Info("set menu err", err)
