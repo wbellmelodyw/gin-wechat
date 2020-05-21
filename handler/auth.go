@@ -58,12 +58,18 @@ func WeChatAuth(ctx *gin.Context) {
 		}
 		if ok {
 			text := message.NewText(w.DstContent)
+			err = weCache.Set(LAST_WORD_KEY, w.DstContent, -1)
+			logger.Module("wechat").Sugar().Info("redis set error", err)
 			return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 		}
 
 		form, to := utils.GetLanguageTag(msg.Content)
 		translator := translate.GetGoogle(form, to)
 		t, err := translator.Text(msg.Content)
+
+		err = weCache.Set(LAST_WORD_KEY, msg.Content, -1)
+		logger.Module("wechat").Sugar().Info("redis set error", err)
+
 		if t == nil || err != nil {
 			logger.Module("wechat").Sugar().Error("serve error", err)
 		}
