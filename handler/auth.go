@@ -149,8 +149,9 @@ func getExample(content interface{}) *message.Reply {
 	}
 
 	ok, err := db.WeChat.Get(&w)
+	logger.Module("db").Sugar().Panic("db error", w)
 	if err != nil {
-		logger.Module("db").Sugar().Panic("insert error", err)
+		logger.Module("db").Sugar().Panic("db error", err)
 	}
 	if ok {
 		text := message.NewText(w.DstExample)
