@@ -154,7 +154,7 @@ func getExample(content interface{}) *message.Reply {
 	}
 	if ok {
 		//text := message.NewText(w.DstExample)
-		text := message.NewText(w.DstExample[0:300])
+		text := message.NewText(w.DstExample[0:400])
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	}
 	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
