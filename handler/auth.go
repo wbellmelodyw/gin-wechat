@@ -122,7 +122,7 @@ func getAttr(content interface{}) *message.Reply {
 		text := message.NewText(w.DstAttr)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	}
-	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
 }
 
 func getExplain(content interface{}) *message.Reply {
@@ -139,7 +139,7 @@ func getExplain(content interface{}) *message.Reply {
 		text := message.NewText(w.DstExplain)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	}
-	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
 }
 
 func getExample(content interface{}) *message.Reply {
@@ -149,7 +149,6 @@ func getExample(content interface{}) *message.Reply {
 	}
 
 	ok, err := db.WeChat.Get(&w)
-	logger.Module("db").Sugar().Panic("db error", w)
 	if err != nil {
 		logger.Module("db").Sugar().Panic("db error", err)
 	}
@@ -157,7 +156,7 @@ func getExample(content interface{}) *message.Reply {
 		text := message.NewText(w.DstExample)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	}
-	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
 }
 
 func insert(textChan <-chan *model.Text) {
