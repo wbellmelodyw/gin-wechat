@@ -14,15 +14,21 @@ import (
 	"strings"
 )
 
+const ATTR = "1"
+const EXPLAIN = "2"
+const EXAMPLE = "3"
+const LAST_WORD_KEY = "last:word"
+
 func WeChatAuth(ctx *gin.Context) {
 	//logger.Module("wechat").Sugar().Error("serve error", "come")
 	//配置微信参数
+	weCache := cache.NewCache()
 	config := &wechat.Config{
 		AppID:          myconfig.GetString("APP_ID"),
 		AppSecret:      myconfig.GetString("APP_SECRET"),
 		Token:          myconfig.GetString("TOKEN"),
 		EncodingAESKey: myconfig.GetString("ENCODING_AES_KEY"),
-		Cache:          cache.NewCache(),
+		Cache:          weCache,
 	}
 	logger.Module("wechat").Sugar().Info("config info", config)
 	wc := wechat.NewWechat(config)
@@ -31,11 +37,21 @@ func WeChatAuth(ctx *gin.Context) {
 	server := wc.GetServer(ctx.Request, ctx.Writer)
 	//设置接收消息的处理方法
 	server.SetMessageHandler(func(msg message.MixMessage) *message.Reply {
+		//没办法自定义菜单,用序号定义
+		switch msg.Content {
+		case ATTR:
+			return getAttr(weCache.Get(LAST_WORD_KEY))
+		case EXPLAIN:
+			return getExplain(weCache.Get(LAST_WORD_KEY))
+		case EXAMPLE:
+			return getExample(weCache.Get(LAST_WORD_KEY))
+		}
 		//回复消息
 		//先从数据库查,找不到再去调google
 		w := model.Word{
 			SrcContent: msg.Content,
 		}
+
 		ok, err := db.WeChat.Get(&w)
 		if err != nil {
 			logger.Module("db").Sugar().Panic("insert error", err)
@@ -84,6 +100,57 @@ func WeChatAuth(ctx *gin.Context) {
 	}
 	//发送回复的消息
 	server.Send()
+}
+
+func getAttr(content interface{}) *message.Reply {
+	c := content.(string)
+	w := model.Word{
+		SrcContent: c,
+	}
+
+	ok, err := db.WeChat.Get(&w)
+	if err != nil {
+		logger.Module("db").Sugar().Panic("insert error", err)
+	}
+	if ok {
+		text := message.NewText(w.DstAttr)
+		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+	}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
+}
+
+func getExplain(content interface{}) *message.Reply {
+	c := content.(string)
+	w := model.Word{
+		SrcContent: c,
+	}
+
+	ok, err := db.WeChat.Get(&w)
+	if err != nil {
+		logger.Module("db").Sugar().Panic("insert error", err)
+	}
+	if ok {
+		text := message.NewText(w.DstExplain)
+		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+	}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
+}
+
+func getExample(content interface{}) *message.Reply {
+	c := content.(string)
+	w := model.Word{
+		SrcContent: c,
+	}
+
+	ok, err := db.WeChat.Get(&w)
+	if err != nil {
+		logger.Module("db").Sugar().Panic("insert error", err)
+	}
+	if ok {
+		text := message.NewText(w.DstExample)
+		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+	}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: "找不到"}
 }
 
 func insert(textChan <-chan *model.Text) {
