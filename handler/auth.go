@@ -166,11 +166,11 @@ func insert(textChan <-chan *model.Text) {
 	word.DstContent = text.Mean
 	attrs := make([]string, 2)
 	for name, attr := range text.Attr {
-		attrs = append(attrs, name+strings.Join(attr, ";"))
+		attrs = append(attrs, name+":"+strings.Join(attr, ";"))
 	}
 	word.DstAttr = strings.Join(attrs, "\n")
 	explain := make([]string, 2)
-	for name, e := range text.Attr {
+	for name, e := range text.Explain {
 		explain = append(explain, name+strings.Join(e, ";"))
 	}
 	word.DstExplain = strings.Join(explain, "\n")
