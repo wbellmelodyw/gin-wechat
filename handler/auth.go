@@ -153,7 +153,8 @@ func getExample(content interface{}) *message.Reply {
 		logger.Module("db").Sugar().Panic("db error", err)
 	}
 	if ok {
-		text := message.NewText(w.DstExample)
+		//text := message.NewText(w.DstExample)
+		text := message.NewText("w.DstExample")
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 	}
 	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
