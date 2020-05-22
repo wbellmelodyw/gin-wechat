@@ -177,6 +177,7 @@ func (g *GoogleTranslator) AudioSaveFile(text string) {
 }
 
 func createDirectoryIfMedia(connection string) {
+	logger.Module("create").Sugar().Info("file", filepath.Dir(connection))
 	if _, err := os.Stat(filepath.Dir(connection)); os.IsNotExist(err) {
 		if err := mkdirAll(filepath.Dir(connection), 0777); err != nil {
 			panic(err)
