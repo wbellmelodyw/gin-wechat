@@ -13,6 +13,7 @@ services:
       - "80:80"
     volumes:
       - /wechat_data/logs:/logs
+      - /wechat_data/media:/media
     networks:
       - backend
 ### 主库 ##################################
