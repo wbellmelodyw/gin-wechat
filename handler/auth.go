@@ -58,7 +58,7 @@ func WeChatAuth(ctx *gin.Context) {
 		}
 		if ok {
 			text := message.NewText(w.DstContent)
-			err = weCache.Set(LAST_WORD_KEY, w.DstContent, -1)
+			err = weCache.Set(LAST_WORD_KEY, w.SrcContent, -1)
 			logger.Module("wechat").Sugar().Info("redis set error", err)
 			return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
 		}
