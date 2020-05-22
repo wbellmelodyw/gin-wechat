@@ -12,8 +12,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /wechat_data/logs:/logs
-      - /wechat_data/media:/media
+      - /wechat_data/logs:/app/logs
+      - /wechat_data/media:/app/media
     networks:
       - backend
 ### 主库 ##################################
