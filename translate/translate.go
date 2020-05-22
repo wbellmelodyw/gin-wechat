@@ -7,6 +7,7 @@ import (
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/model"
 	"os"
+	"path/filepath"
 	"strconv"
 	"unicode/utf8"
 
@@ -15,6 +16,8 @@ import (
 	"net/url"
 	//"strings"
 )
+
+var mkdirAll = os.MkdirAll
 
 type GoogleTranslator struct {
 	form language.Tag //来源
@@ -157,6 +160,7 @@ func (g *GoogleTranslator) AudioSaveFile(text string) {
 		logger.Module("audio").Sugar().Error("response error", err)
 	}
 	buffer := make([]byte, 4096)
+	createDirectoryIfMedia("media")
 	file, err := os.Create("media/" + text + ".mp3")
 	if err != nil {
 		logger.Module("audio").Sugar().Panic("create file error", err)
@@ -169,5 +173,13 @@ func (g *GoogleTranslator) AudioSaveFile(text string) {
 			break
 		}
 		file.Write(buffer[:])
+	}
+}
+
+func createDirectoryIfMedia(connection string) {
+	if _, err := os.Stat(filepath.Dir(connection)); os.IsNotExist(err) {
+		if err := mkdirAll(filepath.Dir(connection), 0777); err != nil {
+			panic(err)
+		}
 	}
 }
