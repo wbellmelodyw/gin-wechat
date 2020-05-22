@@ -157,7 +157,7 @@ func (g *GoogleTranslator) AudioSaveFile(text string) {
 		logger.Module("audio").Sugar().Error("response error", err)
 	}
 	buffer := make([]byte, 4096)
-	file, err := os.Create(text + ".mp3")
+	file, err := os.Create("media/" + text + ".mp3")
 	if err != nil {
 		logger.Module("audio").Sugar().Panic("create file error", err)
 	}
