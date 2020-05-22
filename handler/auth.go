@@ -132,6 +132,8 @@ func getExplain(content interface{}) *message.Reply {
 	}
 
 	ok, err := db.WeChat.Get(&w)
+	logger.Module("db").Sugar().Info("insert error", ok)
+	logger.Module("db").Sugar().Info("insert error", w)
 	if err != nil {
 		logger.Module("db").Sugar().Panic("insert error", err)
 	}
