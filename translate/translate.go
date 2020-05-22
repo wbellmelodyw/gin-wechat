@@ -6,6 +6,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/model"
+	"os"
 	"strconv"
 	"unicode/utf8"
 
@@ -133,4 +134,40 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	}
 
 	return wBuffer.Bytes(), nil
+}
+
+func (g *GoogleTranslator) AudioSaveFile(text string) {
+	token := GetToken(text)
+	ttsUrl := "https://translate.google.cn/translate_tts"
+	data := map[string]string{
+		"ie":      "UTF-8",
+		"q":       text,
+		"tl":      g.to.String(),
+		"total":   "1",
+		"idx":     "0",
+		"textlen": strconv.Itoa(utf8.RuneCountInString(text)),
+		"tk":      token,
+		"client":  "gtx", //"gtx",
+		"prev":    "input",
+	}
+	client := resty.New()
+	res, err := client.R().SetDoNotParseResponse(true).SetQueryParams(data).Get(ttsUrl)
+	defer res.RawBody().Close()
+	if err != nil {
+		logger.Module("audio").Sugar().Error("response error", err)
+	}
+	buffer := make([]byte, 4096)
+	file, err := os.Create(text + ".mp3")
+	if err != nil {
+		logger.Module("audio").Sugar().Panic("create file error", err)
+	}
+	for {
+		n, err := res.RawBody().Read(buffer)
+		if n == 0 || err != nil {
+			logger.Module("audio").Sugar().Info("over", n)
+			logger.Module("audio").Sugar().Error("over", err)
+			break
+		}
+		file.Write(buffer[:])
+	}
 }

@@ -11,6 +11,7 @@ import (
 	"github/wbellmelodyw/gin-wechat/model"
 	"github/wbellmelodyw/gin-wechat/translate"
 	"github/wbellmelodyw/gin-wechat/utils"
+	"golang.org/x/text/language"
 	"strings"
 )
 
@@ -74,13 +75,13 @@ func WeChatAuth(ctx *gin.Context) {
 			logger.Module("wechat").Sugar().Error("serve error", err)
 		}
 		//异步获取音频文件,中文大家都会，只获取英语读音
-		//audioText := make(chan string)
-		//go fetchAudio(audioText)
-		//if form == language.English {
-		//	audioText <- msg.Content
-		//}else{
-		//	audioText <- t.Mean
-		//}
+		audioText := make(chan string)
+		go fetchAudio(audioText)
+		if form == language.English {
+			audioText <- msg.Content
+		} else {
+			audioText <- t.Mean
+		}
 		//异步存入sql
 		tChan := make(chan *model.Text)
 		go insert(tChan)
@@ -186,6 +187,8 @@ func insert(textChan <-chan *model.Text) {
 }
 
 //异步提取音频
-//func fetchAudio(text chan string){
-//
-//}
+func fetchAudio(text chan string) {
+	t := <-text
+	googleTranslator := translate.GetGoogle(language.English, language.English)
+	googleTranslator.AudioSaveFile(t)
+}
