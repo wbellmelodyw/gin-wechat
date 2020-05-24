@@ -18,6 +18,7 @@ import (
 const ATTR = "1"
 const EXPLAIN = "2"
 const EXAMPLE = "3"
+const AUDIO = "4"
 const LAST_WORD_KEY = "last:word"
 
 func WeChatAuth(ctx *gin.Context) {
@@ -46,6 +47,8 @@ func WeChatAuth(ctx *gin.Context) {
 			return getExplain(weCache.Get(LAST_WORD_KEY))
 		case EXAMPLE:
 			return getExample(weCache.Get(LAST_WORD_KEY))
+		case AUDIO:
+			return getAudio(weCache.Get(LAST_WORD_KEY))
 		}
 		//回复消息
 		//先从数据库查,找不到再去调google
@@ -160,6 +163,25 @@ func getExample(content interface{}) *message.Reply {
 		//text := message.NewText(w.DstExample)
 		text := message.NewText(w.DstExample[0:520])
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: text}
+	}
+	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
+}
+
+func getAudio(content interface{}) *message.Reply {
+	c := content.(string)
+	w := model.Word{
+		SrcContent: c,
+	}
+
+	ok, err := db.WeChat.Get(&w)
+	if err != nil {
+		logger.Module("db").Sugar().Panic("db error", err)
+	}
+	if ok {
+		//text := message.NewText(w.DstExample)
+		//text := message.NewVoice(w.MediaId)
+		text := message.NewVoice("5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8")
+		return &message.Reply{MsgType: message.MsgTypeVoice, MsgData: text}
 	}
 	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
 }
