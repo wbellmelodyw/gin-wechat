@@ -74,18 +74,19 @@ func WeChatAuth(ctx *gin.Context) {
 		if t == nil || err != nil {
 			logger.Module("wechat").Sugar().Error("serve error", err)
 		}
+		//异步存入sql
+		tChan := make(chan *model.Text)
+		go insert(tChan)
+		tChan <- t
+
 		//异步获取音频文件,中文大家都会，只获取英语读音
 		audioText := make(chan string)
-		go fetchAudio(audioText)
+		go fetchAudio(audioText, wc)
 		if form == language.English {
 			audioText <- msg.Content
 		} else {
 			audioText <- t.Mean
 		}
-		//异步存入sql
-		tChan := make(chan *model.Text)
-		go insert(tChan)
-		tChan <- t
 		//发送其他的给他
 		//openId := server.GetOpenID()
 		//c := message.NewMessageManager(wc.Context)
@@ -187,8 +188,10 @@ func insert(textChan <-chan *model.Text) {
 }
 
 //异步提取音频
-func fetchAudio(text chan string) {
+func fetchAudio(text chan string, wc *wechat.Wechat) {
 	t := <-text
+	//isDone := make(chan int)
 	googleTranslator := translate.GetGoogle(language.English, language.English)
-	googleTranslator.AudioSaveFile(t)
+	googleTranslator.AudioSaveFile(t, wc)
+
 }

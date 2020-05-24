@@ -3,6 +3,8 @@ package translate
 import (
 	"bytes"
 	"github.com/go-resty/resty/v2"
+	"github.com/silenceper/wechat"
+	"github.com/silenceper/wechat/material"
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/model"
@@ -139,7 +141,7 @@ func (g *GoogleTranslator) Audio(text string) ([]byte, error) {
 	return wBuffer.Bytes(), nil
 }
 
-func (g *GoogleTranslator) AudioSaveFile(text string) {
+func (g *GoogleTranslator) AudioSaveFile(text string, wc *wechat.Wechat) {
 	token := GetToken(text)
 	ttsUrl := "https://translate.google.cn/translate_tts"
 	data := map[string]string{
@@ -174,6 +176,12 @@ func (g *GoogleTranslator) AudioSaveFile(text string) {
 		}
 		file.Write(buffer[:])
 	}
+	//写完开始上传
+	m := material.NewMaterial(wc.Context)
+	mid, urll, err := m.AddMaterial(material.MediaTypeVoice, "media/"+text+".mp3")
+	logger.Module("audio").Sugar().Info("material upload", mid)
+	logger.Module("audio").Sugar().Info("material upload", urll)
+	logger.Module("audio").Sugar().Info("material err", err)
 }
 
 func createDirectoryIfMedia(connection string) {
