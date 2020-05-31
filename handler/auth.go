@@ -187,7 +187,7 @@ func getAudio(content interface{}, wc *wechat.Wechat) *message.Reply {
 		//写完开始上传
 		m := material.NewMaterial(wc.Context)
 		mid, urll, err := m.AddMaterial(material.MediaTypeVoice, "media/"+uploadText+".mp3")
-		m.DeleteMaterial("5zHKjknSbOcaVTCYQKNJXAOP4ISfsULNLTCagBKa-08")
+		m.DeleteMaterial("5zHKjknSbOcaVTCYQKNJXDgAUMO2SlL945idx28hYso")
 		logger.Module("audio").Sugar().Info("material upload", mid)
 		logger.Module("audio").Sugar().Info("material upload", urll)
 		logger.Module("audio").Sugar().Info("material err", err)
@@ -198,7 +198,7 @@ func getAudio(content interface{}, wc *wechat.Wechat) *message.Reply {
 		//上传完更新mediaId
 		var newW model.Word
 		newW.MediaId = mid
-		row, err := db.WeChat.Id(w.Id).Update(&newW)
+		row, err := db.WeChat.Id(17).Update(&newW)
 		logger.Module("audio").Sugar().Info("material update row", row)
 		logger.Module("audio").Sugar().Info("material update id", w.Id)
 		if err != nil {
