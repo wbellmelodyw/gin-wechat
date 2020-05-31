@@ -3,7 +3,6 @@ package translate
 import (
 	"bytes"
 	"github.com/go-resty/resty/v2"
-	"github.com/silenceper/wechat/material"
 	"github.com/tidwall/gjson"
 	"github/wbellmelodyw/gin-wechat/logger"
 	"github/wbellmelodyw/gin-wechat/model"
