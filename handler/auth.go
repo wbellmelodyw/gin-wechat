@@ -187,16 +187,22 @@ func getAudio(content interface{}, wc *wechat.Wechat) *message.Reply {
 		//写完开始上传
 		m := material.NewMaterial(wc.Context)
 		mid, urll, err := m.AddMaterial(material.MediaTypeVoice, "media/"+uploadText+".mp3")
-		m.DeleteMaterial("5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8")
+		m.DeleteMaterial("5zHKjknSbOcaVTCYQKNJXAOP4ISfsULNLTCagBKa-08")
 		logger.Module("audio").Sugar().Info("material upload", mid)
 		logger.Module("audio").Sugar().Info("material upload", urll)
 		logger.Module("audio").Sugar().Info("material err", err)
+		if w.MediaId != "" {
+			text := message.NewVoice(w.MediaId) //"5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8"
+			return &message.Reply{MsgType: message.MsgTypeVoice, MsgData: text}
+		}
 		//上传完更新mediaId
-		w.MediaId = mid
-		row, err := db.WeChat.Id(w.Id).Update(w)
+		var newW model.Word
+		newW.MediaId = mid
+		row, err := db.WeChat.Id(w.Id).Update(&newW)
 		logger.Module("audio").Sugar().Info("material update row", row)
+		logger.Module("audio").Sugar().Info("material update id", w.Id)
 		if err != nil {
-			logger.Module("audio").Sugar().Panic("\"material update err", err)
+			logger.Module("audio").Sugar().Panic("material update err", err)
 		}
 		//text := message.NewText(w.DstExample)
 		//text := message.NewVoice(w.MediaId)
