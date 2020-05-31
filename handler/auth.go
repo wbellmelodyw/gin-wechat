@@ -85,7 +85,7 @@ func WeChatAuth(ctx *gin.Context) {
 
 		//异步获取音频文件,中文大家都会，只获取英语读音
 		audioText := make(chan string)
-		go fetchAudio(audioText, wc)
+		go fetchAudio(audioText)
 		if form == language.English {
 			audioText <- msg.Content
 		} else {
