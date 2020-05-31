@@ -13,3 +13,12 @@ func GetLanguageTag(s string) (from, to language.Tag) {
 	}
 	return language.English, language.Chinese
 }
+
+func IsHan(s string) bool {
+	for _, r := range s {
+		if unicode.Is(unicode.Han, r) {
+			return true
+		}
+	}
+	return false
+}

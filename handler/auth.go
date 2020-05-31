@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/silenceper/wechat"
+	"github.com/silenceper/wechat/material"
 	"github.com/silenceper/wechat/message"
 	"github/wbellmelodyw/gin-wechat/cache"
 	myconfig "github/wbellmelodyw/gin-wechat/config"
@@ -48,7 +49,7 @@ func WeChatAuth(ctx *gin.Context) {
 		case EXAMPLE:
 			return getExample(weCache.Get(LAST_WORD_KEY))
 		case AUDIO:
-			return getAudio(weCache.Get(LAST_WORD_KEY))
+			return getAudio(weCache.Get(LAST_WORD_KEY), wc)
 		}
 		//回复消息
 		//先从数据库查,找不到再去调google
@@ -167,20 +168,39 @@ func getExample(content interface{}) *message.Reply {
 	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
 }
 
-func getAudio(content interface{}) *message.Reply {
+func getAudio(content interface{}, wc *wechat.Wechat) *message.Reply {
+	//检查是不是超过了最大限制
+
 	c := content.(string)
 	w := model.Word{
 		SrcContent: c,
 	}
-
 	ok, err := db.WeChat.Get(&w)
 	if err != nil {
 		logger.Module("db").Sugar().Panic("db error", err)
 	}
 	if ok {
+		uploadText := c
+		if utils.IsHan(c) {
+			uploadText = w.DstContent
+		}
+		//写完开始上传
+		m := material.NewMaterial(wc.Context)
+		mid, urll, err := m.AddMaterial(material.MediaTypeVoice, "media/"+uploadText+".mp3")
+		m.DeleteMaterial("5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8")
+		logger.Module("audio").Sugar().Info("material upload", mid)
+		logger.Module("audio").Sugar().Info("material upload", urll)
+		logger.Module("audio").Sugar().Info("material err", err)
+		//上传完更新mediaId
+		w.MediaId = mid
+		row, err := db.WeChat.Id(w.Id).Update(w)
+		logger.Module("audio").Sugar().Info("material update row", row)
+		if err != nil {
+			logger.Module("audio").Sugar().Panic("\"material update err", err)
+		}
 		//text := message.NewText(w.DstExample)
 		//text := message.NewVoice(w.MediaId)
-		text := message.NewVoice("5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8")
+		text := message.NewVoice(mid) //"5zHKjknSbOcaVTCYQKNJXEto6jr36ceXPKzTboLl0F8"
 		return &message.Reply{MsgType: message.MsgTypeVoice, MsgData: text}
 	}
 	return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText("找不到")}
@@ -210,10 +230,10 @@ func insert(textChan <-chan *model.Text) {
 }
 
 //异步提取音频
-func fetchAudio(text chan string, wc *wechat.Wechat) {
+func fetchAudio(text chan string) {
 	t := <-text
 	//isDone := make(chan int)
 	googleTranslator := translate.GetGoogle(language.English, language.English)
-	googleTranslator.AudioSaveFile(t, wc)
+	googleTranslator.AudioSaveFile(t)
 
 }
